@@ -56,6 +56,7 @@ mesh = SubResource("PlaneMesh_eipvq")
 shape = SubResource("ConcavePolygonShape3D_5eke0")
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("2_nlr8u")]
+min_jump_time = 0.02
 
 [node name="Cube1" type="MeshInstance3D" parent="."]
 transform = Transform3D(5.185, 0, 0, 0, 5.185, 0, 0, 0, 5.185, -5.77376, -1.16399, 0)
