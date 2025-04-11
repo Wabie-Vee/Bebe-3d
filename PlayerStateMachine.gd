@@ -1,11 +1,40 @@
 extends Node
 
+const IdleState = preload("res://states/IdleState.gd")
+const RunState = preload("res://states/RunState.gd")
+const JumpState = preload("res://states/JumpState.gd")
+const FallState = preload("res://states/FallState.gd")
+const LockedState = preload("res://states/LockedState.gd")
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+var states = {}
+var current_state = null
+var player = null
+
+func _init(_player):
+	player = _player
+
+func _ready():
+	states = {
+	"IdleState": IdleState.new(),
+	"RunState": RunState.new(),
+	"JumpState": JumpState.new(),
+	"FallState": FallState.new(),
+	"LockedState": LockedState.new()
+	}
+	set_state("IdleState")
+
+func set_state(state_name: String):
+	if current_state:
+		current_state.exit(player)
+	current_state = states[state_name]
+	current_state.enter(player)
+	print("→ Entered state:", state_name)  # 👀
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func _physics_process(delta):
+	if current_state:
+		current_state.physics_update(player, delta)
+
+func _unhandled_input(event):
+	if current_state:
+		current_state.handle_input(player, event)
