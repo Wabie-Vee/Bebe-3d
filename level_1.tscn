@@ -1,9 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://cwykjdtcpu5pr"]
+[gd_scene load_steps=16 format=3 uid="uid://cwykjdtcpu5pr"]
 
 [ext_resource type="Texture2D" uid="uid://xawbx2wtnx0e" path="res://Textures/Dev2.png" id="2_mnd8f"]
 [ext_resource type="PackedScene" uid="uid://0b5b81u1itr7" path="res://player.tscn" id="2_nlr8u"]
 [ext_resource type="Texture2D" uid="uid://bpgvdpa7ktkpo" path="res://Textures/DevText 1mx1m.png" id="3_xpf4y"]
 [ext_resource type="PackedScene" uid="uid://cdo0t3pr762wx" path="res://DebugHUD.tscn" id="4_mxj5i"]
+[ext_resource type="PackedScene" uid="uid://bdu3lfl8ecjn7" path="res://textbox_ui.tscn" id="5_3ooto"]
+[ext_resource type="PackedScene" uid="uid://fh7mb0ron831" path="res://sign.tscn" id="6_16r3x"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ryy7l"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -55,7 +57,7 @@ mesh = SubResource("PlaneMesh_eipvq")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_5eke0")
 
-[node name="CharacterBody3D" parent="." instance=ExtResource("2_nlr8u")]
+[node name="CharacterBody3D" parent="." groups=["player"] instance=ExtResource("2_nlr8u")]
 min_jump_time = 0.02
 
 [node name="Cube1" type="MeshInstance3D" parent="."]
@@ -77,3 +79,8 @@ mesh = SubResource("BoxMesh_x2gat")
 shape = SubResource("ConcavePolygonShape3D_86uqv")
 
 [node name="DebugHUD" parent="." instance=ExtResource("4_mxj5i")]
+
+[node name="TextboxUI" parent="." instance=ExtResource("5_3ooto")]
+
+[node name="Sign" parent="." instance=ExtResource("6_16r3x")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.16352, 1.48341, -7.48531)

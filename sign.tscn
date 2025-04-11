@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://fh7mb0ron831"]
+
+[ext_resource type="Script" path="res://sign.gd" id="1_rowu1"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_qlc01"]
+size = Vector3(1.06, 0.77, 0.065)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_6ngmd"]
+data = PackedVector3Array(-0.53, 0.385, 0.0325, 0.53, 0.385, 0.0325, -0.53, -0.385, 0.0325, 0.53, 0.385, 0.0325, 0.53, -0.385, 0.0325, -0.53, -0.385, 0.0325, 0.53, 0.385, -0.0325, -0.53, 0.385, -0.0325, 0.53, -0.385, -0.0325, -0.53, 0.385, -0.0325, -0.53, -0.385, -0.0325, 0.53, -0.385, -0.0325, 0.53, 0.385, 0.0325, 0.53, 0.385, -0.0325, 0.53, -0.385, 0.0325, 0.53, 0.385, -0.0325, 0.53, -0.385, -0.0325, 0.53, -0.385, 0.0325, -0.53, 0.385, -0.0325, -0.53, 0.385, 0.0325, -0.53, -0.385, -0.0325, -0.53, 0.385, 0.0325, -0.53, -0.385, 0.0325, -0.53, -0.385, -0.0325, 0.53, 0.385, 0.0325, -0.53, 0.385, 0.0325, 0.53, 0.385, -0.0325, -0.53, 0.385, 0.0325, -0.53, 0.385, -0.0325, 0.53, 0.385, -0.0325, -0.53, -0.385, 0.0325, 0.53, -0.385, 0.0325, -0.53, -0.385, -0.0325, 0.53, -0.385, 0.0325, 0.53, -0.385, -0.0325, -0.53, -0.385, -0.0325)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4u7ce"]
+size = Vector3(2.70898, 2.79926, 3.90503)
+
+[node name="Sign" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_qlc01")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_6ngmd")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.905, 0, 0, 0, 0.905, 0, 0, 0, 0.905, 0, 0, 0.0274588)
+mesh = SubResource("BoxMesh_qlc01")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_6ngmd")
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.488834)
+script = ExtResource("1_rowu1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.253571, 2.45222)
+shape = SubResource("BoxShape3D_4u7ce")
