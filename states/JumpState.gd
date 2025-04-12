@@ -3,14 +3,7 @@ class_name JumpState
 
 func enter(player):
 
-	# Sanity test
-	var success = false
-	if player.sfx_jump and is_instance_valid(player.sfx_jump_player):
-		player.sfx_jump_player.stop()
-		player.sfx_jump_player.stream = player.sfx_jump
-		player.sfx_jump_player.play()
-		success = player.sfx_jump_player.playing
-
+	SoundManager.play_sfx(player.sfx_jump, true)
 	player.velocity.y = player.jump_velocity
 	player.is_jumping = true
 	player.jump_held_time = 0.0

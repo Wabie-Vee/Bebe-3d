@@ -2,6 +2,7 @@ extends CanvasLayer
 
 @onready var label = $Panel/Label
 
+
 var is_showing = false
 
 func _ready():

@@ -100,6 +100,8 @@ func lock_player():
 func unlock_player():
 	state_machine.set_state("IdleState")
 
+
+
 func play_jump_sfx():
 	if sfx_jump and is_instance_valid(sfx_jump_player):
 		sfx_jump_player.stream = sfx_jump
