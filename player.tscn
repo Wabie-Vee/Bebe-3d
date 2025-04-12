@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://0b5b81u1itr7"]
 
-[ext_resource type="Script" uid="uid://dq1cwdafxd3cp" path="res://player.gd" id="1_2grdm"]
+[ext_resource type="Script" uid="uid://dq1cwdafxd3cp" path="res://Player/player.gd" id="1_2grdm"]
 [ext_resource type="AudioStream" uid="uid://wdiepts7x0k6" path="res://Sounds/cartoon_jump.ogg" id="2_if20t"]
 [ext_resource type="AudioStream" uid="uid://b43yqvkp4veme" path="res://Sounds/sfx_Footstep.wav" id="3_287nk"]
 

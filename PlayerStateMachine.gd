@@ -1,10 +1,10 @@
 extends Node
 
-const IdleState = preload("res://states/IdleState.gd")
-const RunState = preload("res://states/RunState.gd")
-const JumpState = preload("res://states/JumpState.gd")
-const FallState = preload("res://states/FallState.gd")
-const LockedState = preload("res://states/LockedState.gd")
+const IdleState = preload("res://Player/States/IdleState.gd")
+const RunState = preload("res://Player/States/RunState.gd")
+const JumpState = preload("res://Player/States/JumpState.gd")
+const FallState = preload("res://Player/States/FallState.gd")
+const LockedState = preload("res://Player/States/LockedState.gd")
 
 var states = {}
 var current_state = null
