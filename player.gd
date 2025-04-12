@@ -28,6 +28,25 @@ extends CharacterBody3D
 @onready var debug_label = debug_hud.get_node("DebugLabel") if debug_hud else null
 @onready var debug_mode = false
 
+#camera settings
+@export var base_fov := 75
+var max_fov := base_fov + 10
+var fov_transition_speed := 10.0
+
+var max_z_speed_for_fov := 10.0  # how fast Bebe can go forward/back
+
+#headbob settings
+var headbob_timer := 0.0
+var headbob_frequency := 20.0
+var headbob_amplitude := 0.1
+var headbob_enabled := true
+@onready var headbob_origin = game_camera.transform.origin
+
+#camera lean
+var camera_lean_angle := 0.0
+var max_lean_angle := deg_to_rad(2.5)
+var lean_speed := 5.0
+
 var is_jumping := false
 var jump_held_time := 0.0
 
@@ -76,12 +95,77 @@ func _physics_process(delta):
 	# Apply mouse look
 	pivot.rotate_y(-look_delta.x * mouse_sensitivity)
 	cam_pivot.rotate_x(-look_delta.y * mouse_sensitivity)
-	cam_pivot.rotation.x = clamp(cam_pivot.rotation.x, deg_to_rad(-40), deg_to_rad(30))
+	cam_pivot.rotation.x = clamp(cam_pivot.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 	look_delta = Vector2.ZERO
 
 	# Run state logic
 	state_machine._physics_process(delta)
 	move_and_slide()
+	
+	# 1. Get strafe direction relative to camera
+	var cam_basis = pivot.global_transform.basis
+	var local_velocity = cam_basis.inverse() * velocity
+
+	# 2. Get lean value
+	var strafe_amount = clamp(local_velocity.x / move_speed, -1.0, 1.0)
+	var target_lean = -strafe_amount * max_lean_angle
+	camera_lean_angle = lerp(camera_lean_angle, target_lean, lean_speed * delta)
+
+	# 3. Apply clean roll rotation to camera using basis rebuild
+	var camera_basis = Basis()
+	camera_basis = Basis(Vector3(0, 0, 1), camera_lean_angle) # roll only
+	camera_basis = camera_basis.orthonormalized()
+
+	# 4. Combine with the existing transform rotation (pitch/yaw from camera rig)
+	game_camera.rotation_degrees.z = rad_to_deg(camera_lean_angle)
+
+	
+	# Head bob logic
+	if headbob_enabled and is_on_floor() and velocity.length() > 0.1:
+		headbob_timer += delta * headbob_frequency
+
+		var bob_offset = Vector3(
+			0,
+			sin(headbob_timer) * headbob_amplitude,
+			0
+		)
+
+		var target_pos = headbob_origin + bob_offset
+		game_camera.transform.origin = lerp(
+			game_camera.transform.origin,
+			target_pos,
+			10 * delta
+		)
+	else:
+		# Smoothly return to original camera position
+		game_camera.transform.origin = lerp(
+			game_camera.transform.origin,
+			headbob_origin,
+			5 * delta
+		)
+		
+		# Get the current horizontal velocity magnitude
+	var horizontal_velocity = velocity
+	horizontal_velocity.y = 0.0
+
+	var speed = horizontal_velocity.length()
+
+	# Get the camera's basis to find its forward direction
+	cam_basis = pivot.global_transform.basis
+	var forward_dir = -cam_basis.z.normalized()
+
+	# Project velocity onto the forward direction
+	var forward_speed = velocity.dot(forward_dir)
+
+	# Take the absolute value to respond to both forward and backward movement
+	var forward_speed_abs = abs(forward_speed)
+
+	# Normalize and clamp it
+	var t = clamp(forward_speed_abs / max_z_speed_for_fov, 0.0, 1.0)
+	var target_fov = lerp(base_fov, max_fov, t)
+
+	# Smooth transition
+	game_camera.fov = lerp(game_camera.fov, target_fov, fov_transition_speed * delta)
 	
 	if debug_label != null and debug_mode:
 		debug_label.text = (

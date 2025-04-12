@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bdu3lfl8ecjn7"]
 
-[ext_resource type="Script" path="res://textbox_ui.gd" id="1_gorxe"]
+[ext_resource type="Script" uid="uid://b3ii412sef2kg" path="res://textbox_ui.gd" id="1_gorxe"]
 
 [node name="TextboxUI" type="CanvasLayer"]
 script = ExtResource("1_gorxe")
@@ -28,6 +28,12 @@ vertical_alignment = 1
 justification_flags = 161
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "[b][wave amp = 50 freq=2]heyyy[/wave] somebody forgot to put some [shake][color=red]dialogue[/color][/shake] hereeee!!"
+scroll_active = false

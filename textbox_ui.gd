@@ -1,6 +1,7 @@
 extends CanvasLayer
 
-@onready var label = $Panel/Label
+
+@onready var label = $Panel/RichTextLabel
 
 
 var is_showing = false

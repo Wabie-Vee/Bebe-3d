@@ -1,6 +1,6 @@
 extends Area3D
 
-@export var message: String = "This is a sign. 👀"
+@export var message: String = "[b][wave amp = 50 freq=2]heyyy[/wave] somebody forgot to put some [shake][color=red]dialogue[/color][/shake] hereeee!!"
 @onready var icon = $InteractIcon
 @onready var animator = $AnimationPlayer
 

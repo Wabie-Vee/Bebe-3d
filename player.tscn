@@ -1,16 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://0b5b81u1itr7"]
+[gd_scene load_steps=6 format=3 uid="uid://0b5b81u1itr7"]
 
-[ext_resource type="Script" path="res://player.gd" id="1_2grdm"]
+[ext_resource type="Script" uid="uid://dq1cwdafxd3cp" path="res://player.gd" id="1_2grdm"]
 [ext_resource type="AudioStream" uid="uid://wdiepts7x0k6" path="res://Sounds/cartoon_jump.ogg" id="2_if20t"]
 [ext_resource type="AudioStream" uid="uid://b43yqvkp4veme" path="res://Sounds/sfx_Footstep.wav" id="3_287nk"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_htvgc"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_amb2f"]
-albedo_color = Color(0.596694, 0.59417, 1.15514e-06, 1)
-
-[sub_resource type="SphereMesh" id="SphereMesh_2j42w"]
-material = SubResource("StandardMaterial3D_amb2f")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h4r72"]
 
@@ -23,10 +17,6 @@ sfx_footstep = ExtResource("3_287nk")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_htvgc")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
-transform = Transform3D(0.42, 0, 0, 0, 0.42, 0, 0, 0, 0.42, 0, 0.400934, -0.425039)
-mesh = SubResource("SphereMesh_2j42w")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_h4r72")
 
@@ -35,10 +25,9 @@ shape = SubResource("CapsuleShape3D_h4r72")
 [node name="CameraPivot" type="Node3D" parent="Pivot"]
 
 [node name="CameraRig" type="Node3D" parent="Pivot/CameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 2.28)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0324997, 0)
 
 [node name="GameCamera" type="Camera3D" parent="Pivot/CameraPivot/CameraRig"]
-transform = Transform3D(1, 0, 0, 0, 0.979067, 0.203539, 0, -0.203539, 0.979067, 0, 0, 0)
 
 [node name="PlayerSFX" type="AudioStreamPlayer3D" parent="."]
 unique_name_in_owner = true

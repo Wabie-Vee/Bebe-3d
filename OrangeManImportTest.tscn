@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c3mmmwryy30kc"]
+
+[ext_resource type="PackedScene" uid="uid://c5n30d0untne4" path="res://Models/Orange Boy.glb" id="1_j76vc"]
+
+[node name="Overworld" instance=ExtResource("1_j76vc")]
+
+[node name="Cube_058" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.99387, 0, 0)
