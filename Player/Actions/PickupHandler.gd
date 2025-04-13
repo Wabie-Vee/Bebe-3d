@@ -4,14 +4,14 @@ extends Node3D
 @export var camera: Camera3D
 var held_object: Node3D = null
 func smooth_grab(obj: Node3D):
-	var duration := 0.4
+	var duration := 0.2
 	var timer := 0.0
 
 	var start_transform := obj.global_transform
 	var start_origin := start_transform.origin
 	var start_basis := start_transform.basis
 
-	var target_pos := hold_point.global_transform.origin
+	
 	var direction = (camera.global_transform.origin - start_origin).normalized()
 
 	# Make the front (+Z) of the object face the player
@@ -20,10 +20,10 @@ func smooth_grab(obj: Node3D):
 	var start_quat = start_basis.get_rotation_quaternion()
 
 	# 🔥 Fix for spinning too far: force shortest path
-	if start_quat.dot(final_quat) < 0.0:
-		final_quat = -final_quat
+	
 
 	while timer < duration and is_instance_valid(obj):
+		var target_pos := hold_point.global_transform.origin
 		var t = clamp(timer / duration, 0.0, 1.0)
 		var eased_t = t * t * (3.0 - 2.0 * t)  # smoothstep easing
 
@@ -42,6 +42,7 @@ func smooth_grab(obj: Node3D):
 	if not is_instance_valid(obj): return
 
 	# Reparent without snap
+	var target_pos := hold_point.global_transform.origin
 	var final_transform = Transform3D(final_quat, target_pos)
 	var local_transform = hold_point.global_transform.affine_inverse() * final_transform
 
