@@ -4,18 +4,14 @@
 [ext_resource type="AudioStream" uid="uid://wdiepts7x0k6" path="res://Sounds/cartoon_jump.ogg" id="2_if20t"]
 [ext_resource type="AudioStream" uid="uid://b43yqvkp4veme" path="res://Sounds/sfx_Footstep.wav" id="3_287nk"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_htvgc"]
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h4r72"]
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_btcbx"]
+
 [node name="Player" type="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4888, 0)
 script = ExtResource("1_2grdm")
 sfx_jump = ExtResource("2_if20t")
 sfx_footstep = ExtResource("3_287nk")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_htvgc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_h4r72")
@@ -29,6 +25,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.475, 0)
 
 [node name="GameCamera" type="Camera3D" parent="Pivot/CameraPivot/CameraRig"]
 
+[node name="HoldPoint" type="Marker3D" parent="Pivot/CameraPivot/CameraRig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.257629, -0.306648, -0.868861)
+
 [node name="PlayerSFX" type="AudioStreamPlayer3D" parent="."]
 unique_name_in_owner = true
 bus = &"SFX"
@@ -36,3 +35,6 @@ bus = &"SFX"
 [node name="SFXFootstep" type="AudioStreamPlayer3D" parent="."]
 
 [node name="SFXJump" type="AudioStreamPlayer3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_btcbx")

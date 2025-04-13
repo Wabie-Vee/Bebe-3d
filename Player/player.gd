@@ -15,6 +15,10 @@ extends CharacterBody3D
 @export var sfx_jump : AudioStream
 @export var sfx_footstep : AudioStream
 
+#pickup objects
+@onready var hold_point = $Pivot/CameraPivot/CameraRig/HoldPoint
+var held_object: Node3D = null
+
 @onready var sfx_footstep_player = $SFXFootstep
 @onready var sfx_jump_player = $SFXJump
 @onready var sfx_player = $PlayerSFX
@@ -69,6 +73,13 @@ func _unhandled_input(event):
 	state_machine._unhandled_input(event)
 
 func _physics_process(delta):
+	#pickup object
+	if Input.is_action_just_pressed("key_interact"):
+		if held_object:
+			drop_object()
+		else:
+			try_pickup()
+	
 	#debug toggle
 	if Input.is_action_just_pressed("key_debug"):
 		debug_mode = !debug_mode
@@ -177,6 +188,43 @@ func _physics_process(delta):
 		)
 	else:
 		debug_label.text = ""
+		
+		#pickup objects
+func try_pickup():
+	
+	var space_state = get_world_3d().direct_space_state
+	var from = game_camera.global_position
+	var to = from + game_camera.global_transform.basis.z * -2  # 2 units forward
+	var query = PhysicsRayQueryParameters3D.create(from, to)
+	query.exclude = [self]
+	#query.collision_mask = 1  # Only use this if you're using layers!
+	
+	var result = get_world_3d().direct_space_state.intersect_ray(query)
+	if result and result.collider.is_in_group("pickable"):
+		held_object = result.collider
+		held_object.is_held = true
+		held_object.sleeping = true
+		held_object.freeze = true
+		held_object.set_deferred("collision_layer", 0)
+		held_object.set_deferred("collision_mask", 0)
+		held_object.get_parent().remove_child(held_object)
+		hold_point.add_child(held_object)
+		held_object.transform = held_object.transform.looking_at(hold_point.global_transform.origin, Vector3.UP)
+		held_object.transform.origin = Vector3.ZERO
+		
+func drop_object():
+	held_object.get_parent().remove_child(held_object)
+	get_tree().get_root().add_child(held_object)
+	held_object.global_transform = hold_point.global_transform
+	held_object.sleeping = false
+	held_object.freeze = false
+	held_object.set_deferred("collision_layer", 1)
+	held_object.set_deferred("collision_mask", 1)
+	held_object.is_held = false
+	held_object = null
+
+	
+		
 
 func lock_player():
 	state_machine.set_state("LockedState")
@@ -195,3 +243,4 @@ func play_footstep_sfx():
 	if sfx_footstep and not sfx_footstep_player.playing:
 		sfx_footstep_player.stream = sfx_footstep
 		sfx_footstep_player.play()
+ 
