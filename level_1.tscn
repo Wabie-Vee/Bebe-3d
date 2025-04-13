@@ -108,7 +108,7 @@ transform = Transform3D(-0.85171, 0.453809, -0.262006, 1.47562e-08, 0.499998, 0.
 shadow_enabled = true
 
 [node name="Player" parent="." groups=["player"] instance=ExtResource("2_nlr8u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.65061, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.09929, 2.65061, 0)
 sfx_jump = ExtResource("3_gyffv")
 sfx_footstep = ExtResource("3_sof0w")
 base_fov = 85
