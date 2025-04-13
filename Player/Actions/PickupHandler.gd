@@ -49,7 +49,7 @@ func smooth_grab(obj: Node3D):
 	hold_point.add_child(obj)
 	obj.transform = local_transform
 
-func try_pickup(player: Node3D):
+func try_pickup(player: Node3D) -> Node3D:
 	var space_state = get_world_3d().direct_space_state
 	var from = camera.global_position
 	var to = from + camera.global_transform.basis.z * -2
@@ -58,15 +58,16 @@ func try_pickup(player: Node3D):
 
 	var result = space_state.intersect_ray(query)
 	if result and result.collider.is_in_group("pickable"):
-		held_object = result.collider
-		held_object.is_held = true
-		held_object.sleeping = true
-		held_object.freeze = true
-		held_object.set_deferred("collision_layer", 0)
-		held_object.set_deferred("collision_mask", 0)
+		var obj = result.collider
+		held_object = obj
+		obj.is_held = true
+		obj.sleeping = true
+		obj.freeze = true
+		obj.set_deferred("collision_layer", 0)
+		obj.set_deferred("collision_mask", 0)
+		return obj  # ✅ return it
 
-		# Start smooth pickup
-		smooth_grab(held_object)
+	return null  # ❗ if nothing picked
 
 		
 		
