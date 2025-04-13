@@ -185,7 +185,10 @@ multimesh = SubResource("MultiMesh_ubhxj")
 [node name="Bonnie2" parent="." instance=ExtResource("14_ggavl")]
 transform = Transform3D(-0.0296993, 0, -1.89477, 0, 1.895, 0, 1.89477, 0, -0.0296993, 1.64606, 0.235083, 1.34557)
 
-[node name="Node3D" parent="." groups=["pickable"] instance=ExtResource("15_ubhxj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.9871, 0.959396, 0)
+[node name="RigidBody3D" parent="." instance=ExtResource("15_ubhxj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1, 0)
+
+[node name="RigidBody3D2" parent="." instance=ExtResource("15_ubhxj")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 12.8811, 1.04256, 0.153265)
 
 [editable path="Level/Floor/grass"]

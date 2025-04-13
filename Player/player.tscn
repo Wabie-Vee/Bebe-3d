@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://0b5b81u1itr7"]
+[gd_scene load_steps=7 format=3 uid="uid://0b5b81u1itr7"]
 
 [ext_resource type="Script" uid="uid://dq1cwdafxd3cp" path="res://Player/player.gd" id="1_2grdm"]
 [ext_resource type="AudioStream" uid="uid://wdiepts7x0k6" path="res://Sounds/cartoon_jump.ogg" id="2_if20t"]
 [ext_resource type="AudioStream" uid="uid://b43yqvkp4veme" path="res://Sounds/sfx_Footstep.wav" id="3_287nk"]
+[ext_resource type="Script" uid="uid://crq36hgtm6nkt" path="res://Player/Actions/PickupHandler.gd" id="4_gwnis"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h4r72"]
 
@@ -26,7 +27,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.475, 0)
 [node name="GameCamera" type="Camera3D" parent="Pivot/CameraPivot/CameraRig"]
 
 [node name="HoldPoint" type="Marker3D" parent="Pivot/CameraPivot/CameraRig"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.257629, -0.306648, -0.868861)
+transform = Transform3D(0.987984, -0.154555, 0, 0.154555, 0.987984, 0, 0, 0, 1, 0.257629, -0.385497, -0.851551)
 
 [node name="PlayerSFX" type="AudioStreamPlayer3D" parent="."]
 unique_name_in_owner = true
@@ -38,3 +39,8 @@ bus = &"SFX"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_btcbx")
+
+[node name="PickupHandler" type="Node3D" parent="." node_paths=PackedStringArray("hold_point", "camera")]
+script = ExtResource("4_gwnis")
+hold_point = NodePath("../Pivot/CameraPivot/CameraRig/HoldPoint")
+camera = NodePath("../Pivot/CameraPivot/CameraRig/GameCamera")

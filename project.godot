@@ -23,6 +23,7 @@ Macro="*res://Util/MACRO.gd"
 [global_group]
 
 player=""
+pickable=""
 
 [input]
 
