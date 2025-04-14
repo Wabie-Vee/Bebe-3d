@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://fh7mb0ron831"]
 
-[ext_resource type="Script" uid="uid://cap0tou68btip" path="res://Util/sign.gd" id="1_rowu1"]
+[ext_resource type="Script" uid="uid://cap0tou68btip" path="res://sign.gd" id="1_rowu1"]
 [ext_resource type="Texture2D" uid="uid://ccc32qh0o3gxx" path="res://Textures/finger point.png" id="2_gc8ur"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dcibt"]

@@ -27,7 +27,7 @@ extends CharacterBody3D
 @onready var game_camera = $Pivot/CameraPivot/CameraRig/GameCamera
 @onready var mesh = $MeshInstance3D
 @onready var pickup_handler = $PickupHandler
-@onready var state_machine = preload("res://Player/PlayerStateMachine.gd").new(self)
+@onready var state_machine = preload("res://PlayerStateMachine.gd").new(self)
 @onready var debug_hud = get_tree().get_root().find_child("DebugHUD", true, false)
 @onready var debug_label = debug_hud.get_node("DebugLabel") if debug_hud else null
 

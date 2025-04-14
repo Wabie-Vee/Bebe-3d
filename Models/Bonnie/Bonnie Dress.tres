@@ -1,0 +1,36 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://g2v2hh5hl56o"]
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_u0i3c"]
+parameter_name = "ColorParameter"
+default_value_enabled = true
+default_value = Color(0.91201, 0.619829, 0.933281, 1)
+
+[sub_resource type="VisualShader" id="VisualShader_txk7a"]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform vec4 ColorParameter : source_color = vec4(0.912010, 0.619829, 0.933281, 1.000000);
+
+
+
+void fragment() {
+// ColorParameter:2
+	vec4 n_out2p0 = ColorParameter;
+
+
+// Output:0
+	ALBEDO = vec3(n_out2p0.xyz);
+
+
+}
+"
+graph_offset = Vector2(-814, 3)
+nodes/fragment/2/node = SubResource("VisualShaderNodeColorParameter_u0i3c")
+nodes/fragment/2/position = Vector2(-280, 180)
+nodes/fragment/connections = PackedInt32Array(2, 0, 0, 0)
+
+[resource]
+resource_name = "Bonnie Dress"
+render_priority = 0
+shader = SubResource("VisualShader_txk7a")
+shader_parameter/ColorParameter = Color(0.91201, 0.619829, 0.933281, 1)

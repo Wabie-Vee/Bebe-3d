@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bdu3lfl8ecjn7"]
 
-[ext_resource type="Script" uid="uid://b3ii412sef2kg" path="res://Util/textbox_ui.gd" id="1_gorxe"]
+[ext_resource type="Script" uid="uid://b3ii412sef2kg" path="res://textbox_ui.gd" id="1_gorxe"]
 
 [node name="TextboxUI" type="CanvasLayer"]
 script = ExtResource("1_gorxe")

@@ -32,6 +32,29 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-_subresources={}
+_subresources={
+"materials": {
+"Bonnie Dress": {
+"use_external/enabled": true,
+"use_external/path": "res://Models/Bonnie/Bonnie Dress.tres"
+},
+"Bonnie Face": {
+"use_external/enabled": true,
+"use_external/path": "res://Models/Bonnie/Bonnie Face.tres"
+},
+"Bonnie Nose": {
+"use_external/enabled": true,
+"use_external/path": "res://Models/Bonnie/Bonnie Nose.tres"
+},
+"Bonnie Shirt": {
+"use_external/enabled": true,
+"use_external/path": "res://Models/Bonnie/Bonnie Shirt.tres"
+},
+"Bonnie Skin": {
+"use_external/enabled": true,
+"use_external/path": "res://Models/Bonnie/Bonnie Skin.tres"
+}
+}
+}
 gltf/naming_version=1
 gltf/embedded_image_handling=1

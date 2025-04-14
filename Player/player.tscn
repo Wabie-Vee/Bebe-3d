@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://0b5b81u1itr7"]
 
 [ext_resource type="Script" uid="uid://dq1cwdafxd3cp" path="res://Player/player.gd" id="1_2grdm"]
-[ext_resource type="AudioStream" uid="uid://c4p0fhkumqsxh" path="res://Sounds/cartoon_jump.ogg" id="2_if20t"]
+[ext_resource type="AudioStream" uid="uid://wdiepts7x0k6" path="res://Sounds/cartoon_jump.ogg" id="2_if20t"]
 [ext_resource type="AudioStream" uid="uid://b43yqvkp4veme" path="res://Sounds/sfx_Footstep.wav" id="3_287nk"]
 [ext_resource type="Script" uid="uid://crq36hgtm6nkt" path="res://Player/Actions/PickupHandler.gd" id="4_gwnis"]
 
@@ -12,18 +12,8 @@
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00276542, 1.49012e-08, 0.00192547)
 script = ExtResource("1_2grdm")
-move_speed = null
-gravity = null
-slide_factor = null
-jump_velocity = null
-min_jump_time = null
-max_jump_hold_time = null
-jump_gravity_scale = null
-rotation_speed = null
-mouse_sensitivity = null
 sfx_jump = ExtResource("2_if20t")
 sfx_footstep = ExtResource("3_287nk")
-base_fov = null
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_h4r72")
