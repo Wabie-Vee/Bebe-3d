@@ -1,14 +1,14 @@
 [gd_scene load_steps=9 format=4 uid="uid://ceypapyp15i1v"]
 
-[ext_resource type="Shader" uid="uid://cv6smu3abs0ag" path="res://Grass.tres" id="1_d2gna"]
-[ext_resource type="Texture2D" uid="uid://c7hfvdlb8tdck" path="res://Models/WindNoise.tres" id="2_btrte"]
-[ext_resource type="PackedScene" uid="uid://brcs4tf8b1gx6" path="res://Models/grass.glb" id="2_po8e2"]
+[ext_resource type="Shader" uid="uid://cv6smu3abs0ag" path="res://Grass.tres" id="1_k1ews"]
+[ext_resource type="Texture2D" uid="uid://c7hfvdlb8tdck" path="res://Models/WindNoise.tres" id="2_6dki7"]
+[ext_resource type="PackedScene" uid="uid://brcs4tf8b1gx6" path="res://Models/grass.glb" id="3_0seqj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_18dk7"]
 render_priority = 0
-shader = ExtResource("1_d2gna")
+shader = ExtResource("1_k1ews")
 shader_parameter/WindSpeed = 0.1
-shader_parameter/WindNoise = ExtResource("2_btrte")
+shader_parameter/WindNoise = ExtResource("2_6dki7")
 shader_parameter/WindPower = 0.1
 shader_parameter/BaseColor = Color(0.292483, 0.35, 0.2485, 1)
 shader_parameter/GrassColor = Color(0.322786, 0.852343, 0.442765, 1)
@@ -56,6 +56,6 @@ material_override = SubResource("ShaderMaterial_18dk7")
 cast_shadow = 0
 multimesh = SubResource("MultiMesh_4a31g")
 
-[node name="Grass" parent="." instance=ExtResource("2_po8e2")]
+[node name="Grass" parent="." instance=ExtResource("3_0seqj")]
 
 [editable path="Grass"]
