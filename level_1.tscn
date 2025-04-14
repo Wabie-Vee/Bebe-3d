@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=4 uid="uid://cwykjdtcpu5pr"]
+[gd_scene load_steps=32 format=4 uid="uid://cwykjdtcpu5pr"]
 
 [ext_resource type="Texture2D" uid="uid://xawbx2wtnx0e" path="res://Textures/Dev2.png" id="2_mnd8f"]
 [ext_resource type="PackedScene" uid="uid://0b5b81u1itr7" path="res://Player/player.tscn" id="2_nlr8u"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://c7hfvdlb8tdck" path="res://Models/WindNoise.tres" id="13_sof0w"]
 [ext_resource type="PackedScene" uid="uid://nshjb3p0ppcl" path="res://Models/Bonnie.glb" id="14_ggavl"]
 [ext_resource type="PackedScene" uid="uid://di26053osflx7" path="res://PickableObject.tscn" id="15_ubhxj"]
+[ext_resource type="PackedScene" uid="uid://dsu3yynbq8rof" path="res://Models/RachelsFirstPictureFrame.glb" id="16_65or1"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ryy7l"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -190,5 +191,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.67514, 3.16775, -7.09771)
 
 [node name="RigidBody3D2" parent="." instance=ExtResource("15_ubhxj")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 12.8811, 1.04256, 0.153265)
+
+[node name="RachelsFirstPictureFrame" parent="." instance=ExtResource("16_65or1")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.15167, 1.69738, -7.6685)
 
 [editable path="Level/Floor/grass"]
