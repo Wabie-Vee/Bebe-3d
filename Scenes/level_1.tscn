@@ -110,15 +110,6 @@ shadow_enabled = true
 
 [node name="Player" parent="." groups=["player"] instance=ExtResource("1_8i23i")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.09929, 2.65061, 0)
-move_speed = null
-gravity = null
-slide_factor = null
-jump_velocity = null
-min_jump_time = null
-max_jump_hold_time = null
-jump_gravity_scale = null
-rotation_speed = null
-mouse_sensitivity = null
 sfx_jump = ExtResource("2_8yhm2")
 sfx_footstep = ExtResource("3_pjppf")
 base_fov = 85
