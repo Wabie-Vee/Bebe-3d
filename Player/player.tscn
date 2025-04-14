@@ -10,6 +10,7 @@
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_btcbx"]
 
 [node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00276542, 1.49012e-08, 0.00192547)
 script = ExtResource("1_2grdm")
 sfx_jump = ExtResource("2_if20t")
 sfx_footstep = ExtResource("3_287nk")
@@ -27,7 +28,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.475, 0)
 [node name="GameCamera" type="Camera3D" parent="Pivot/CameraPivot/CameraRig"]
 
 [node name="HoldPoint" type="Marker3D" parent="Pivot/CameraPivot/CameraRig"]
-transform = Transform3D(0.987984, -0.154555, 0, 0.154555, 0.987984, 0, 0, 0, 1, 0.257629, -0.385497, -0.851551)
+transform = Transform3D(0.987984, -0.154555, 0, 0.154555, 0.987984, 0, 0, 0, 1, 0.387091, -0.385497, -0.851551)
 
 [node name="PlayerSFX" type="AudioStreamPlayer3D" parent="."]
 unique_name_in_owner = true
