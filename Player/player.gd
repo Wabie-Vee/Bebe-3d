@@ -47,6 +47,8 @@ var camera_lean_angle := 0.0
 var max_lean_angle := deg_to_rad(2.5)
 var lean_speed := 5.0
 
+var is_grabbing_smoothly := false
+
 var is_jumping := false
 var jump_held_time := 0.0
 var input_direction := Vector3.ZERO
@@ -74,11 +76,12 @@ func _unhandled_input(event):
 func _physics_process(delta):
 	handle_inputs()
 
-	if pickup_handler.held_object:
+	if pickup_handler.held_object and not is_grabbing_smoothly:
 		var target_dir = (game_camera.global_transform.origin - pickup_handler.held_object.global_transform.origin).normalized()
 		var current_basis = pickup_handler.held_object.global_transform.basis
 		var target_basis = Basis().looking_at(target_dir, Vector3.UP)
 		pickup_handler.held_object.global_transform.basis = current_basis.slerp(target_basis, delta * 5.0)
+	
 
 	handle_camera_look()
 	state_machine._physics_process(delta)
@@ -95,7 +98,11 @@ func handle_inputs():
 		if pickup_handler.held_object:
 			pickup_handler.drop_object()
 		else:
-			pickup_handler.try_pickup(self)
+			var grabbed = pickup_handler.try_pickup(self)
+			if grabbed:
+				is_grabbing_smoothly = true
+				await pickup_handler.smooth_grab(grabbed)
+				is_grabbing_smoothly = false
 
 	if Input.is_action_just_pressed("key_debug"):
 		debug_mode = !debug_mode
