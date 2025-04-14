@@ -1,5 +1,12 @@
 extends CharacterBody3D
 
+#region === UI ===
+@onready var reticle = $UI/TextureRect
+
+@export var default_reticle: Texture2D
+@export var hover_reticle: Texture2D
+#endregion
+
 #region === CONFIGURATION ===
 @export var move_speed := 8.0
 @export var sprint_speed := move_speed * 1.5
@@ -74,14 +81,22 @@ func _unhandled_input(event):
 
 #region === PHYSICS PROCESS ===
 func _physics_process(delta):
+	
+	var space_state = get_world_3d().direct_space_state
+	var from = game_camera.global_position
+	var to = from + game_camera.global_transform.basis.z * -2
+
+	var query = PhysicsRayQueryParameters3D.create(from, to)
+	query.exclude = [self]  # or player
+
+	var result = space_state.intersect_ray(query)
+
+	if result and result.collider.is_in_group("pickable") and pickup_handler.held_object == null:
+		reticle.texture = hover_reticle
+	else:
+		reticle.texture = default_reticle
 	handle_inputs()
 
-	if pickup_handler.held_object and not is_grabbing_smoothly:
-		var target_dir = (game_camera.global_transform.origin - pickup_handler.held_object.global_transform.origin).normalized()
-		var current_basis = pickup_handler.held_object.global_transform.basis
-		var target_basis = Basis().looking_at(target_dir, Vector3.UP)
-		pickup_handler.held_object.global_transform.basis = current_basis.slerp(target_basis, delta * 5.0)
-	
 
 	handle_camera_look()
 	state_machine._physics_process(delta)
@@ -129,7 +144,7 @@ func handle_inputs():
 func handle_camera_look():
 	pivot.rotate_y(-look_delta.x * mouse_sensitivity)
 	cam_pivot.rotate_x(-look_delta.y * mouse_sensitivity)
-	cam_pivot.rotation.x = clamp(cam_pivot.rotation.x, deg_to_rad(-90), deg_to_rad(90))
+	cam_pivot.rotation.x = clamp(cam_pivot.rotation.x, deg_to_rad(-80), deg_to_rad(80))
 	look_delta = Vector2.ZERO
 
 func apply_camera_lean(delta):

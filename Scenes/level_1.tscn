@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=4 uid="uid://cwykjdtcpu5pr"]
+[gd_scene load_steps=33 format=4 uid="uid://cwykjdtcpu5pr"]
 
 [ext_resource type="PackedScene" uid="uid://0b5b81u1itr7" path="res://Player/player.tscn" id="1_8i23i"]
 [ext_resource type="AudioStream" uid="uid://b0ltatuxb2lul" path="res://Sounds/sfx_jump2.wav" id="2_8yhm2"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://nshjb3p0ppcl" path="res://Models/Bonnie.glb" id="14_1f27d"]
 [ext_resource type="PackedScene" uid="uid://di26053osflx7" path="res://Scenes/PickableObject.tscn" id="15_pm77i"]
 [ext_resource type="PackedScene" uid="uid://dsu3yynbq8rof" path="res://Models/RachelsFirstPictureFrame.glb" id="16_xub2v"]
+[ext_resource type="PackedScene" uid="uid://dqernut8go0up" path="res://Util/Items/BonnieObject.tscn" id="17_8yhm2"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ryy7l"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -110,6 +111,15 @@ shadow_enabled = true
 
 [node name="Player" parent="." groups=["player"] instance=ExtResource("1_8i23i")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.09929, 2.65061, 0)
+move_speed = 8.0
+gravity = -24.8
+slide_factor = 5.0
+jump_velocity = 10.0
+min_jump_time = 0.1
+max_jump_hold_time = 0.25
+jump_gravity_scale = 0.3
+rotation_speed = 8.0
+mouse_sensitivity = 0.002
 sfx_jump = ExtResource("2_8yhm2")
 sfx_footstep = ExtResource("3_pjppf")
 base_fov = 85
@@ -183,8 +193,11 @@ transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0.0175028, 0.134848, 0.004
 material_override = SubResource("ShaderMaterial_ggavl")
 multimesh = SubResource("MultiMesh_ubhxj")
 
-[node name="Bonnie2" parent="." instance=ExtResource("14_1f27d")]
+[node name="Bonnie2" parent="." groups=["pickable"] instance=ExtResource("14_1f27d")]
 transform = Transform3D(-0.0296993, 0, -1.89477, 0, 1.895, 0, 1.89477, 0, -0.0296993, 1.64606, 0.235083, 1.34557)
+
+[node name="Bonnie2" parent="Bonnie2" instance=ExtResource("14_1f27d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.679917, 0, -0.0106573)
 
 [node name="RigidBody3D" parent="." instance=ExtResource("15_pm77i")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.67514, 3.16775, -7.09771)
@@ -194,5 +207,8 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 12.881
 
 [node name="RachelsFirstPictureFrame" parent="." instance=ExtResource("16_xub2v")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.15167, 1.69738, -7.6685)
+
+[node name="RigidBody3D3" parent="." instance=ExtResource("17_8yhm2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.84995, 1.5076, -1.40276)
 
 [editable path="Level/Floor/grass"]

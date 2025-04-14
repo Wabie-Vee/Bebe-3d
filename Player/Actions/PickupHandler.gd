@@ -4,51 +4,40 @@ extends Node3D
 @export var camera: Camera3D
 var held_object: Node3D = null
 func smooth_grab(obj: Node3D):
-	var duration := 0.2
+	var duration := 0.3
 	var timer := 0.0
 
 	var start_transform := obj.global_transform
-	var start_origin := start_transform.origin
-	var start_basis := start_transform.basis
+	var start_pos := start_transform.origin
+	var start_quat := start_transform.basis.get_rotation_quaternion()
 
-	
-	var direction = (camera.global_transform.origin - start_origin).normalized()
+	var end_transform := hold_point.global_transform
+	var end_pos := end_transform.origin
+	var end_quat := end_transform.basis.get_rotation_quaternion()
 
-	# Make the front (+Z) of the object face the player
-	var final_basis = Basis().looking_at(direction, Vector3.UP).rotated(Vector3.UP, PI)
-	var final_quat = final_basis.get_rotation_quaternion()
-	var start_quat = start_basis.get_rotation_quaternion()
-
-	# 🔥 Fix for spinning too far: force shortest path
-	
+	# Ensure shortest path rotation
+	if start_quat.dot(end_quat) < 0.0:
+		end_quat = -end_quat
 
 	while timer < duration and is_instance_valid(obj):
-		var target_pos := hold_point.global_transform.origin
 		var t = clamp(timer / duration, 0.0, 1.0)
-		var eased_t = t * t * (3.0 - 2.0 * t)  # smoothstep easing
+		var eased_t = t * t * (3.0 - 2.0 * t)
 
-		# Lerp position
-		var lerped_origin = start_origin.lerp(target_pos, eased_t)
+		var lerped_pos := start_pos.lerp(end_pos, eased_t)
+		var lerped_quat := start_quat.slerp(end_quat, eased_t)
+		var lerped_basis := Basis(lerped_quat)
 
-		# Slerp rotation with corrected quaternions
-		var lerped_quat = start_quat.slerp(final_quat, eased_t)
-		var lerped_basis = Basis(lerped_quat)
-
-		obj.global_transform = Transform3D(lerped_basis, lerped_origin)
+		obj.global_transform = Transform3D(lerped_basis, lerped_pos)
 
 		await get_tree().process_frame
 		timer += get_process_delta_time()
 
 	if not is_instance_valid(obj): return
 
-	# Reparent without snap
-	var target_pos := hold_point.global_transform.origin
-	var final_transform = Transform3D(final_quat, target_pos)
-	var local_transform = hold_point.global_transform.affine_inverse() * final_transform
-
+	# Final snap into place: match hold point exactly
 	obj.get_parent().remove_child(obj)
 	hold_point.add_child(obj)
-	obj.transform = local_transform
+	obj.transform = Transform3D.IDENTITY  # zeroed-out in local space = stays in place relative to hold point
 
 func try_pickup(player: Node3D) -> Node3D:
 	var space_state = get_world_3d().direct_space_state

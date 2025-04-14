@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://0b5b81u1itr7"]
+[gd_scene load_steps=9 format=3 uid="uid://0b5b81u1itr7"]
 
 [ext_resource type="Script" uid="uid://dq1cwdafxd3cp" path="res://Player/player.gd" id="1_2grdm"]
 [ext_resource type="AudioStream" uid="uid://c4p0fhkumqsxh" path="res://Sounds/cartoon_jump.ogg" id="2_if20t"]
 [ext_resource type="AudioStream" uid="uid://b43yqvkp4veme" path="res://Sounds/sfx_Footstep.wav" id="3_287nk"]
+[ext_resource type="Texture2D" uid="uid://fbmiuyig18x6" path="res://Textures/UI/CursorSelect.png" id="3_fhl08"]
 [ext_resource type="Script" uid="uid://crq36hgtm6nkt" path="res://Player/Actions/PickupHandler.gd" id="4_gwnis"]
+[ext_resource type="Texture2D" uid="uid://ds70q3yx8puki" path="res://Textures/UI/Cursor.png" id="5_k53q1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h4r72"]
 
@@ -12,18 +14,10 @@
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00276542, 1.49012e-08, 0.00192547)
 script = ExtResource("1_2grdm")
-move_speed = null
-gravity = null
-slide_factor = null
-jump_velocity = null
-min_jump_time = null
-max_jump_hold_time = null
-jump_gravity_scale = null
-rotation_speed = null
-mouse_sensitivity = null
+default_reticle = ExtResource("5_k53q1")
+hover_reticle = ExtResource("3_fhl08")
 sfx_jump = ExtResource("2_if20t")
 sfx_footstep = ExtResource("3_287nk")
-base_fov = null
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_h4r72")
@@ -38,7 +32,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.475, 0)
 [node name="GameCamera" type="Camera3D" parent="Pivot/CameraPivot/CameraRig"]
 
 [node name="HoldPoint" type="Marker3D" parent="Pivot/CameraPivot/CameraRig"]
-transform = Transform3D(0.987984, -0.154555, 0, 0.154555, 0.987984, 0, 0, 0, 1, 0.387091, -0.385497, -0.851551)
+transform = Transform3D(0.887811, -0.341708, -0.308265, 0.382349, 0.920475, 0.0808372, 0.256128, -0.189633, 0.94786, 0.738667, -0.646755, -0.626619)
 
 [node name="PlayerSFX" type="AudioStreamPlayer3D" parent="."]
 unique_name_in_owner = true
@@ -55,3 +49,19 @@ mesh = SubResource("CapsuleMesh_btcbx")
 script = ExtResource("4_gwnis")
 hold_point = NodePath("../Pivot/CameraPivot/CameraRig/HoldPoint")
 camera = NodePath("../Pivot/CameraPivot/CameraRig/GameCamera")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="UI"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_k53q1")
