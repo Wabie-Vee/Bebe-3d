@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="Hello World 3"
-run/main_scene="res://level_1.tscn"
+run/main_scene="res://Scenes/level_1.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[audio]
+
+buses/default_bus_layout="res://Sounds/default_bus_layout.tres"
 
 [autoload]
 
