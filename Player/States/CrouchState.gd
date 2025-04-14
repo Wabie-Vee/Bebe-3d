@@ -1,15 +1,46 @@
 extends BaseState
-class_name RunState
+
+@export var crouch_height := 1
+@export var crouch_speed := 3.0
+@export var camera_offset := Vector3(0, -0.3, 0)
 
 var footstep_timer := 0.0
-var footstep_interval := 0.3
+var footstep_interval := 0.4
+var original_height := 0.0
+var original_camera_offset := Vector3.ZERO
 
 func enter(player):
-	footstep_timer = 0.0
-	
-func handle_input(player, event):
-	if event.is_action_pressed("key_crouch"):
-		player.state_machine.set_state("CrouchState")
+	var collider = player.get_node("CollisionShape3D")
+	var tween = player.create_tween()
+
+	original_height = collider.shape.height
+	original_camera_offset = player.camera_rig.position
+
+	tween.set_parallel()
+	tween.tween_property(collider.shape, "height", crouch_height, 0.2)\
+		.set_trans(Tween.TRANS_SINE)\
+		.set_ease(Tween.EASE_OUT)
+
+	tween.tween_property(player.camera_rig, "position", camera_offset, 0.2)\
+		.set_trans(Tween.TRANS_SINE)\
+		.set_ease(Tween.EASE_OUT)
+
+	player.move_speed = crouch_speed
+
+func exit(player):
+	var collider = player.get_node("CollisionShape3D")
+	var tween = player.create_tween()
+
+	tween.set_parallel()
+	tween.tween_property(collider.shape, "height", original_height, 0.2)\
+		.set_trans(Tween.TRANS_SINE)\
+		.set_ease(Tween.EASE_IN)
+
+	tween.tween_property(player.camera_rig, "position", original_camera_offset, 0.2)\
+		.set_trans(Tween.TRANS_SINE)\
+		.set_ease(Tween.EASE_IN)
+
+	player.move_speed = player.original_move_speed
 
 func physics_update(player, delta):
 	if player.jump_pressed and player.is_on_floor():
@@ -20,9 +51,6 @@ func physics_update(player, delta):
 		player.state_machine.set_state("FallState")
 		return
 
-	if player.input_direction.length() <= 0.1:
-		player.state_machine.set_state("IdleState")
-		return
 
 	var cam_basis = player.pivot.global_transform.basis
 	var forward = -cam_basis.z
@@ -51,3 +79,10 @@ func physics_update(player, delta):
 			footstep_timer = footstep_interval / speed_multiplier
 	else:
 		footstep_timer = 0.0
+
+	
+func handle_input(player, event):
+	if Input.is_action_just_pressed("key_crouch") and player.can_stand():
+		player.state_machine.set_state("IdleState")
+	
+	

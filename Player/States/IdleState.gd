@@ -1,7 +1,13 @@
 # res://states/IdleState.gd
 extends BaseState
 class_name IdleState
+func handle_input(player, event):
+	if event.is_action_pressed("key_crouch"):
+		player.state_machine.set_state("CrouchState")
+		
 func physics_update(player, delta):
+	
+	
 	if player.jump_pressed and player.is_on_floor():
 		player.state_machine.set_state("JumpState")
 		return
