@@ -2,17 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bu5wjdbmy3m6c"
-path.s3tc="res://.godot/imported/BedCoverFish.png-c576b33b6e6dcc99d2576a52f0a703da.s3tc.ctex"
+uid="uid://cuuiqaudmkb5h"
+path.s3tc="res://.godot/imported/BebeBead_BedCoverFish.png-a9280bf03242c6bb0bf3a3fb60d154d6.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
+generator_parameters={
+"md5": "b91a6840a3e5daa92814488a4263f01c"
+}
 
 [deps]
 
-source_file="res://Textures/ModelTextures/BedCoverFish.png"
-dest_files=["res://.godot/imported/BedCoverFish.png-c576b33b6e6dcc99d2576a52f0a703da.s3tc.ctex"]
+source_file="res://Models/BebeBead_BedCoverFish.png"
+dest_files=["res://.godot/imported/BebeBead_BedCoverFish.png-a9280bf03242c6bb0bf3a3fb60d154d6.s3tc.ctex"]
 
 [params]
 

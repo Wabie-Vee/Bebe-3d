@@ -8,12 +8,13 @@ extends CharacterBody3D
 #endregion
 
 #region === CONFIGURATION ===
-@export var original_move_speed := 8.0
+@export var original_move_speed := 6
+@export var sprint_multiplier := 1.2
 @onready var move_speed := original_move_speed
-@onready var sprint_speed := move_speed * 1.5
+@onready var sprint_speed := move_speed * sprint_multiplier
 @export var gravity := -24.8
 @export var slide_factor := 5.0
-@export var jump_velocity := 10.0
+@export var jump_velocity := 5.0
 @export var min_jump_time := 0.1
 @export var max_jump_hold_time := 0.25
 @export var jump_gravity_scale := 0.3
