@@ -16,7 +16,7 @@ tonemap_mode = 2
 glow_enabled = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_fghy3"]
-size = Vector2(1000, 100)
+size = Vector2(100, 100)
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_tb433"]
 data = PackedVector3Array(500, 0, 50, -500, 0, 50, 500, 0, -50, -500, 0, 50, -500, 0, -50, 500, 0, -50)
