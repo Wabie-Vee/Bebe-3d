@@ -7,7 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://comsm8vajad2b" path="res://Sounds/sfx_footstep2.wav" id="5_apopc"]
 [ext_resource type="Texture2D" uid="uid://ds70q3yx8puki" path="res://Textures/UI/Cursor.png" id="5_k53q1"]
 [ext_resource type="Shader" uid="uid://dgjmjbhcx1oul" path="res://Player/player.gdshader" id="6_vtle1"]
-[ext_resource type="Shader" uid="uid://cy1n5ok8t6w4f" path="res://Player/VHS.gdshader" id="8_00tjw"]
+[ext_resource type="Shader" path="res://Player/VHS.gdshader" id="8_00tjw"]
 [ext_resource type="PackedScene" uid="uid://cdo0t3pr762wx" path="res://Util/DebugHUD.tscn" id="9_x3vf3"]
 [ext_resource type="PackedScene" uid="uid://bdu3lfl8ecjn7" path="res://Scenes/textbox_ui.tscn" id="10_apopc"]
 
@@ -44,7 +44,7 @@ shader_parameter/noiseQuality = 0.1
 shader_parameter/noiseIntensity = 0.0
 shader_parameter/offsetIntensity = 0.0
 shader_parameter/colorOffsetIntensity = 0.1
-shader_parameter/pixelSize = 5.693
+shader_parameter/pixelSize = 51.671
 shader_parameter/grainIntensity = 0.0
 shader_parameter/use_overlay = false
 shader_parameter/use_lens_distortion = false
