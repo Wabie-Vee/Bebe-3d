@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://fh7mb0ron831"]
 
-[ext_resource type="Script" uid="uid://cap0tou68btip" path="res://Util/Dialogue_Textboxes/sign.gd" id="1_rowu1"]
+[ext_resource type="Script" uid="uid://cap0tou68btip" path="res://Util/sign.gd" id="1_m6mpx"]
 [ext_resource type="Texture2D" uid="uid://ccc32qh0o3gxx" path="res://Textures/finger point.png" id="2_gc8ur"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dcibt"]
@@ -18,7 +18,7 @@ material = SubResource("StandardMaterial3D_o38ut")
 size = Vector3(1.16, 0.69, 0.045)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_krdqk"]
-size = Vector3(1.7146, 1.5484, 1.52173)
+size = Vector3(1.7146, 3.64191, 3.36768)
 
 [sub_resource type="Animation" id="Animation_yqpn8"]
 resource_name = "Bounce"
@@ -73,7 +73,8 @@ _data = {
 }
 
 [node name="Area3D" type="Area3D"]
-script = ExtResource("1_rowu1")
+script = ExtResource("1_m6mpx")
+face_threshold = 0.975
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_ui28p")
@@ -83,7 +84,7 @@ transform = Transform3D(0.94, 0, 0, 0, 0.845, 0, 0, 0, 1, 0, 0, 0.0367571)
 mesh = SubResource("BoxMesh_4yjpe")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.044281, 0.740535)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.00248, 1.66351)
 shape = SubResource("BoxShape3D_krdqk")
 
 [node name="InteractIcon" type="Sprite3D" parent="."]

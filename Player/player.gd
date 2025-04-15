@@ -8,8 +8,9 @@ extends CharacterBody3D
 #endregion
 
 #region === CONFIGURATION ===
-@export var move_speed := 8.0
-@export var sprint_speed := move_speed * 1.5
+@export var original_move_speed := 8.0
+@onready var move_speed := original_move_speed
+@onready var sprint_speed := move_speed * 1.5
 @export var gravity := -24.8
 @export var slide_factor := 5.0
 @export var jump_velocity := 10.0
@@ -21,7 +22,7 @@ extends CharacterBody3D
 
 @export var sfx_jump : AudioStream
 @export var sfx_footstep : AudioStream
-@export var base_fov := 75
+@export_range(75,120) var base_fov := 75
 #endregion
 
 #region === INTERNAL VARS ===
@@ -31,11 +32,13 @@ extends CharacterBody3D
 @onready var sfx_player = $PlayerSFX
 @onready var pivot = $Pivot
 @onready var cam_pivot = $Pivot/CameraPivot
+@onready var camera_rig = $Pivot/CameraPivot/CameraRig
 @onready var game_camera = $Pivot/CameraPivot/CameraRig/GameCamera
 @onready var mesh = $MeshInstance3D
+@onready var UI = $UI
 @onready var pickup_handler = $PickupHandler
 @onready var state_machine = preload("res://Player/PlayerStateMachine.gd").new(self)
-@onready var debug_hud = get_tree().get_root().find_child("DebugHUD", true, false)
+@onready var debug_hud = $DebugHUD
 @onready var debug_label = debug_hud.get_node("DebugLabel") if debug_hud else null
 
 var debug_mode := false
@@ -45,7 +48,7 @@ var fov_transition_speed := 10.0
 var max_z_speed_for_fov := 10.0
 
 var headbob_timer := 0.0
-var headbob_frequency := 20.0
+var headbob_frequency := 15.0
 var headbob_amplitude := 0.1
 var headbob_enabled := true
 @onready var headbob_origin = game_camera.transform.origin
@@ -81,6 +84,7 @@ func _unhandled_input(event):
 
 #region === PHYSICS PROCESS ===
 func _physics_process(delta):
+	
 	
 	var space_state = get_world_3d().direct_space_state
 	var from = game_camera.global_position
@@ -138,6 +142,12 @@ func handle_inputs():
 
 	jump_pressed = Input.is_action_just_pressed("move_jump")
 	sprinting = Input.is_action_pressed("move_sprint")
+	
+	if Input.is_action_just_pressed("key_restart"):
+		var current_scene = get_tree().current_scene
+		var scene_path = current_scene. scene_file_path
+		get_tree().change_scene_to_file(scene_path)
+	
 #endregion
 
 #region === CAMERA ===
@@ -172,6 +182,18 @@ func handle_headbob(delta):
 		game_camera.transform.origin = lerp(game_camera.transform.origin, target_pos, 10 * delta)
 	else:
 		game_camera.transform.origin = lerp(game_camera.transform.origin, headbob_origin, 5 * delta)
+#endregion
+
+#region === CAN STAND ===
+func can_stand() -> bool:
+	var from = global_transform.origin
+	var to = from + Vector3.UP * 1.0  # Adjust height as needed
+
+	var query = PhysicsRayQueryParameters3D.create(from, to)
+	query.exclude = [self]
+
+	var result = get_world_3d().direct_space_state.intersect_ray(query)
+	return result.is_empty()
 #endregion
 
 #region === DEBUG ===
