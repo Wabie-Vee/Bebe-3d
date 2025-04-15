@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://ctpbne1nipsoj"]
+[gd_scene load_steps=8 format=3 uid="uid://ctpbne1nipsoj"]
 
 [ext_resource type="PackedScene" uid="uid://0b5b81u1itr7" path="res://Player/player.tscn" id="1_fghy3"]
+[ext_resource type="Script" uid="uid://c3blt42uoailc" path="res://Scenes/Levels/DefaultLevel.gd" id="1_tb433"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tb433"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -22,6 +23,7 @@ size = Vector2(100, 100)
 data = PackedVector3Array(500, 0, 50, -500, 0, 50, 500, 0, -50, -500, 0, 50, -500, 0, -50, 500, 0, -50)
 
 [node name="DefaultLevel" type="Node3D"]
+script = ExtResource("1_tb433")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_cst55")
@@ -40,3 +42,13 @@ mesh = SubResource("PlaneMesh_fghy3")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_tb433")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+
+[node name="LevelGeometry" type="Node3D" parent="."]
+
+[node name="Interactables" type="Node3D" parent="."]
+
+[node name="Triggers" type="Node3D" parent="."]
+
+[node name="FX" type="Node3D" parent="."]
