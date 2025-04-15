@@ -1,7 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://ctpbne1nipsoj"]
+[gd_scene load_steps=11 format=3 uid="uid://ctpbne1nipsoj"]
 
 [ext_resource type="PackedScene" uid="uid://0b5b81u1itr7" path="res://Player/player.tscn" id="1_fghy3"]
 [ext_resource type="Script" uid="uid://c3blt42uoailc" path="res://Scenes/Levels/DefaultLevel.gd" id="1_tb433"]
+[ext_resource type="PackedScene" uid="uid://bdu3lfl8ecjn7" path="res://Scenes/textbox_ui.tscn" id="3_ydqp7"]
+[ext_resource type="PackedScene" uid="uid://cdo0t3pr762wx" path="res://Util/DebugHUD.tscn" id="4_ylvlc"]
+[ext_resource type="PackedScene" uid="uid://cqdsets4netse" path="res://Scenes/audio_stream_player_3d.tscn" id="5_mhdeb"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tb433"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -12,15 +15,18 @@ sky_material = SubResource("ProceduralSkyMaterial_tb433")
 
 [sub_resource type="Environment" id="Environment_cst55"]
 background_mode = 2
+background_energy_multiplier = 0.0
 sky = SubResource("Sky_kmrqx")
 tonemap_mode = 2
 glow_enabled = true
+fog_light_color = Color(0.493277, 0.561501, 0.608517, 1)
+fog_light_energy = 0.69
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_fghy3"]
 size = Vector2(100, 100)
 
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_tb433"]
-data = PackedVector3Array(500, 0, 50, -500, 0, 50, 500, 0, -50, -500, 0, 50, -500, 0, -50, 500, 0, -50)
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_rjxb0"]
+data = PackedVector3Array(50, 0, 50, -50, 0, 50, 50, 0, -50, -50, 0, 50, -50, 0, -50, 50, 0, -50)
 
 [node name="DefaultLevel" type="Node3D"]
 script = ExtResource("1_tb433")
@@ -30,18 +36,19 @@ environment = SubResource("Environment_cst55")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.85171, 0.453809, -0.262006, 1.47562e-08, 0.499998, 0.866027, 0.524012, 0.737604, -0.425854, 0, 0, 0)
+visible = false
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_fghy3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.996123, 0.98673, 1.75293)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="Default Floor" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_fghy3")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+[node name="StaticBody3D2" type="StaticBody3D" parent="Default Floor"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
-shape = SubResource("ConcavePolygonShape3D_tb433")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Default Floor/StaticBody3D2"]
+shape = SubResource("ConcavePolygonShape3D_rjxb0")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 
@@ -52,3 +59,11 @@ shape = SubResource("ConcavePolygonShape3D_tb433")
 [node name="Triggers" type="Node3D" parent="."]
 
 [node name="FX" type="Node3D" parent="."]
+
+[node name="Utility" type="Node3D" parent="."]
+
+[node name="TextboxUI" parent="Utility" instance=ExtResource("3_ydqp7")]
+
+[node name="DebugHUD" parent="Utility" instance=ExtResource("4_ylvlc")]
+
+[node name="Control" parent="Utility" instance=ExtResource("5_mhdeb")]

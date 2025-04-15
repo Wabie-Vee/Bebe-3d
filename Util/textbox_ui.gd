@@ -1,16 +1,13 @@
 extends CanvasLayer
 
-
 @onready var label = $Panel/RichTextLabel
-
-
-var is_showing = false
 
 func _ready():
 	visible = false
-
-func toggle_message(text: String):
-	is_showing = !is_showing
-	visible = is_showing
-	if is_showing:
-		label.text = text
+	
+func show_message(text: String):
+	visible = true
+	label.text = text
+	
+func hide_message():
+	visible = false

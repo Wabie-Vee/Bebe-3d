@@ -11,18 +11,19 @@ func smooth_grab(obj: Node3D):
 	var start_pos := start_transform.origin
 	var start_quat := start_transform.basis.get_rotation_quaternion()
 
-	var end_transform := hold_point.global_transform
-	var end_pos := end_transform.origin
-	var end_quat := end_transform.basis.get_rotation_quaternion()
+	
 
 	# Ensure shortest path rotation
-	if start_quat.dot(end_quat) < 0.0:
-		end_quat = -end_quat
+
 
 	while timer < duration and is_instance_valid(obj):
 		var t = clamp(timer / duration, 0.0, 1.0)
 		var eased_t = t * t * (3.0 - 2.0 * t)
-
+		var end_transform := hold_point.global_transform
+		var end_pos := end_transform.origin
+		var end_quat := end_transform.basis.get_rotation_quaternion()
+		if start_quat.dot(end_quat) < 0.0:
+			end_quat = -end_quat
 		var lerped_pos := start_pos.lerp(end_pos, eased_t)
 		var lerped_quat := start_quat.slerp(end_quat, eased_t)
 		var lerped_basis := Basis(lerped_quat)

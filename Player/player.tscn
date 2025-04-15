@@ -7,13 +7,14 @@
 [ext_resource type="AudioStream" uid="uid://comsm8vajad2b" path="res://Sounds/sfx_footstep2.wav" id="5_apopc"]
 [ext_resource type="Texture2D" uid="uid://ds70q3yx8puki" path="res://Textures/UI/Cursor.png" id="5_k53q1"]
 [ext_resource type="Shader" uid="uid://dgjmjbhcx1oul" path="res://Player/player.gdshader" id="6_vtle1"]
-[ext_resource type="PackedScene" uid="uid://dkyhllirpsase" path="res://Models/LilBebe.glb" id="7_apopc"]
 [ext_resource type="Shader" uid="uid://cy1n5ok8t6w4f" path="res://Player/VHS.gdshader" id="8_00tjw"]
 [ext_resource type="PackedScene" uid="uid://cdo0t3pr762wx" path="res://Util/DebugHUD.tscn" id="9_x3vf3"]
 [ext_resource type="PackedScene" uid="uid://bdu3lfl8ecjn7" path="res://Scenes/textbox_ui.tscn" id="10_apopc"]
+[ext_resource type="PackedScene" uid="uid://buw0rbqga322g" path="res://Scenes/Bebe.tscn" id="11_apopc"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h4r72"]
-height = 1.49325
+radius = 0.436259
+height = 1.2677
 
 [sub_resource type="QuadMesh" id="QuadMesh_od3ui"]
 flip_faces = true
@@ -53,6 +54,7 @@ shader_parameter/overlay_color = Color(1, 1, 1, 10)
 shader_parameter/lens_distortion_strength = 0.0
 
 [node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.66933, 0)
 script = ExtResource("1_2grdm")
 default_reticle = ExtResource("5_k53q1")
 hover_reticle = ExtResource("3_fhl08")
@@ -60,18 +62,20 @@ sfx_jump = ExtResource("4_x3vf3")
 sfx_footstep = ExtResource("5_apopc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.251922, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.118615, 0)
 shape = SubResource("CapsuleShape3D_h4r72")
 
 [node name="Pivot" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.338177, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0820816, 0)
 
 [node name="CameraPivot" type="Node3D" parent="Pivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.243301, 0)
 
 [node name="CameraRig" type="Node3D" parent="Pivot/CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.170667, -0.291046)
 
 [node name="GameCamera" type="Camera3D" parent="Pivot/CameraPivot/CameraRig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.145604)
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Pivot/CameraPivot/CameraRig/GameCamera"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.245686, -27.192)
@@ -81,11 +85,14 @@ mesh = SubResource("QuadMesh_od3ui")
 skeleton = NodePath("../../../../..")
 surface_material_override/0 = SubResource("ShaderMaterial_00tjw")
 
-[node name="HoldPoint" type="Marker3D" parent="Pivot/CameraPivot/CameraRig"]
-transform = Transform3D(0.887811, -0.341708, -0.308265, 0.382349, 0.920475, 0.0808372, 0.256128, -0.189633, 0.94786, 0.738667, -0.646755, -0.626619)
+[node name="RayCast3D" type="RayCast3D" parent="Pivot/CameraPivot/CameraRig/GameCamera"]
+target_position = Vector3(0, 0, -2.97)
 
-[node name="LilBebe" parent="Pivot" instance=ExtResource("7_apopc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.569907, 0.308344)
+[node name="HoldPoint" type="Marker3D" parent="Pivot/CameraPivot/CameraRig"]
+transform = Transform3D(0.753443, -0.385941, -0.532327, 0.459916, 0.887933, 0.00719721, 0.469894, -0.250248, 0.846508, 0.4928, -0.514105, -0.405394)
+
+[node name="LookAtPoint" type="Marker3D" parent="Pivot/CameraPivot/CameraRig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.43659)
 
 [node name="PlayerSFX" type="AudioStreamPlayer3D" parent="."]
 unique_name_in_owner = true
@@ -137,3 +144,90 @@ mouse_filter = 2
 layer = 2
 
 [node name="TextboxUI" parent="." instance=ExtResource("10_apopc")]
+
+[node name="BebePivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.998435, -0.055926, 0, 0.055926, 0.998435, 0, 0, 0)
+
+[node name="BebeBear" parent="BebePivot" instance=ExtResource("11_apopc")]
+transform = Transform3D(-1, 0, 8.74228e-08, 4.22486e-09, 0.998832, 0.0483268, -8.73207e-08, 0.0483268, -0.998832, 0, -0.651713, 0.0605456)
+
+[node name="AnimationTree" parent="BebePivot/BebeBear" index="0"]
+parameters/MoveBlend/blend_position = 0
+
+[node name="Skeleton3D" parent="BebePivot/BebeBear/char_grp/rig" index="0"]
+bones/2/position = Vector3(0, 0.041058, 0.280131)
+bones/8/rotation = Quaternion(0.00569292, -0.000780432, -0.0561886, 0.998404)
+bones/9/rotation = Quaternion(-1.47059e-07, -5.23603e-08, 0.513076, 0.858343)
+bones/14/position = Vector3(-0.00500667, 0.155351, 0.00214439)
+bones/24/rotation = Quaternion(0.00569291, -0.00078043, -0.0561885, 0.998404)
+bones/26/rotation = Quaternion(-0.0706513, 0.132109, -0.00944048, 0.988669)
+bones/26/scale = Vector3(0.332947, 9.02107, 0.332947)
+bones/27/rotation = Quaternion(-1.36781e-07, -5.28725e-08, 0.513075, 0.858343)
+bones/28/rotation = Quaternion(0.00573685, -1.17102e-07, -0.0561837, 0.998404)
+bones/29/rotation = Quaternion(0.0056929, -0.000780418, -0.0561886, 0.998404)
+bones/30/rotation = Quaternion(-1.03858e-07, -2.95826e-08, 0.513076, 0.858343)
+bones/33/rotation = Quaternion(0.00569305, 0.000780322, 0.0561882, 0.998404)
+bones/34/rotation = Quaternion(-1.86422e-08, 9.12583e-08, -0.513075, 0.858344)
+bones/35/rotation = Quaternion(0.00569309, 0.000780343, 0.0561883, 0.998404)
+bones/36/rotation = Quaternion(-7.42913e-08, 5.43643e-08, -0.513075, 0.858344)
+bones/41/position = Vector3(0.00500664, 0.155351, 0.00214441)
+bones/51/rotation = Quaternion(0.00569305, 0.000780321, 0.0561882, 0.998404)
+bones/53/rotation = Quaternion(-0.0706509, -0.132106, 0.00944054, 0.98867)
+bones/53/scale = Vector3(0.332947, 9.02107, 0.332947)
+bones/54/rotation = Quaternion(-1.72847e-08, 9.38846e-08, -0.513075, 0.858344)
+bones/55/rotation = Quaternion(0.005737, 8.89175e-08, 0.0561834, 0.998404)
+bones/64/rotation = Quaternion(-0.450083, -0.441354, 0.208374, 0.747805)
+bones/65/rotation = Quaternion(-3.90094e-08, -7.52901e-08, 0.398461, 0.917185)
+bones/67/rotation = Quaternion(-0.289302, -0.142756, 0.0189535, 0.946343)
+bones/70/rotation = Quaternion(-0.450083, -0.441354, 0.208374, 0.747805)
+bones/72/rotation = Quaternion(0.526494, 0.0279581, 0.849543, 0.0173262)
+bones/72/scale = Vector3(0.307385, 10.5842, 0.307385)
+bones/74/rotation = Quaternion(-0.319063, -0.358731, 0.0258826, 0.876836)
+bones/75/rotation = Quaternion(-3.78752e-08, -6.3884e-08, 0.398461, 0.917185)
+bones/76/rotation = Quaternion(-0.494993, -0.140609, 0.0312495, 0.856875)
+bones/80/rotation = Quaternion(-0.450083, 0.441354, -0.208374, 0.747805)
+bones/81/rotation = Quaternion(-3.34943e-09, -4.65535e-08, -0.398461, 0.917185)
+bones/82/rotation = Quaternion(-0.450083, 0.441354, -0.208374, 0.747805)
+bones/84/rotation = Quaternion(-0.526494, 0.0279584, 0.849542, -0.0173261)
+bones/84/scale = Vector3(0.307385, 10.5842, 0.307385)
+bones/86/rotation = Quaternion(-0.289302, 0.142756, -0.0189535, 0.946343)
+bones/90/rotation = Quaternion(-0.319063, 0.358731, -0.0258827, 0.876836)
+bones/91/rotation = Quaternion(-1.36622e-09, -4.56203e-08, -0.398461, 0.917185)
+bones/92/rotation = Quaternion(-0.494994, 0.140609, -0.0312496, 0.856875)
+bones/117/position = Vector3(2.00202e-16, -0.0298551, 0.645516)
+bones/120/position = Vector3(-0.1061, 0.109933, 0.181881)
+bones/120/rotation = Quaternion(-0.580448, -0.271984, 0.613965, 0.4606)
+bones/121/rotation = Quaternion(-5.24835e-09, 0.00516466, 1.3546e-08, 0.999987)
+bones/122/position = Vector3(0.1061, 0.109933, 0.181881)
+bones/122/rotation = Quaternion(0.580448, -0.271984, 0.613965, -0.4606)
+bones/123/rotation = Quaternion(-1.44174e-08, -0.00516464, -3.44782e-08, 0.999987)
+bones/124/position = Vector3(-0.104188, 0.0754953, 0.231006)
+bones/124/rotation = Quaternion(-0.358675, -0.531268, 0.290669, 0.710364)
+bones/125/position = Vector3(0.104188, 0.0754953, 0.231006)
+bones/125/rotation = Quaternion(-0.358676, 0.531268, -0.29067, 0.710364)
+bones/126/position = Vector3(-0.246592, -0.0231346, 0.44777)
+bones/126/rotation = Quaternion(-0.614005, -0.139818, 0.516161, 0.580539)
+bones/127/position = Vector3(0.246592, -0.0231346, 0.44777)
+bones/127/rotation = Quaternion(-0.614005, 0.139817, -0.516161, 0.58054)
+bones/128/position = Vector3(-0.266157, -0.0362594, 0.408547)
+bones/128/rotation = Quaternion(-0.507446, -0.372893, 0.242091, 0.738134)
+bones/129/rotation = Quaternion(1.20537e-07, -0.239082, 1.38024e-08, 0.970999)
+bones/130/position = Vector3(0.266157, -0.0362595, 0.408547)
+bones/130/rotation = Quaternion(-0.507446, 0.372893, -0.242091, 0.738134)
+bones/131/rotation = Quaternion(-8.02964e-09, 0.238781, 1.18585e-08, 0.971074)
+bones/132/position = Vector3(-0.266157, -0.0362594, 0.408547)
+bones/132/rotation = Quaternion(-0.507446, -0.372893, 0.242091, 0.738134)
+bones/133/rotation = Quaternion(0.118648, -0.220715, 0.13245, 0.958992)
+bones/135/position = Vector3(0.266157, -0.0362595, 0.408547)
+bones/135/rotation = Quaternion(-0.507446, 0.372893, -0.242091, 0.738134)
+bones/136/rotation = Quaternion(0.118648, 0.220715, -0.13245, 0.958991)
+bones/142/position = Vector3(0.311872, 0.444929, -0.113514)
+bones/143/position = Vector3(-0.311872, 0.444929, -0.113514)
+
+[node name="Bebe" parent="BebePivot/BebeBear/char_grp/rig/Skeleton3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.080261, 0)
+
+[node name="LookAtHead" parent="BebePivot/BebeBear/char_grp/rig/Skeleton3D" index="1"]
+target_node = NodePath("../../../../../../Pivot/CameraPivot/CameraRig/LookAtPoint")
+
+[editable path="BebePivot/BebeBear"]

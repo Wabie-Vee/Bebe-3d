@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dkisokscxfg31"]
+
+[ext_resource type="PackedScene" uid="uid://d4jfi8qfnkpna" path="res://Blender/LampPost.blend" id="1_mi14h"]
+
+[node name="LampPost" instance=ExtResource("1_mi14h")]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+light_color = Color(0.789641, 0.596581, 0.371919, 1)
+omni_range = 7.66

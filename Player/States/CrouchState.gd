@@ -1,7 +1,7 @@
 extends BaseState
 
 @export var crouch_height := 1
-@export var crouch_speed := 3.0
+@export var crouch_speed := 2.0
 @export var camera_offset := Vector3(0, -0.3, 0)
 
 var footstep_timer := 0.0

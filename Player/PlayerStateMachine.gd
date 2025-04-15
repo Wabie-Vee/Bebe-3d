@@ -30,7 +30,7 @@ func set_state(state_name: String):
 		current_state.exit(player)
 	current_state = states[state_name]
 	current_state.enter(player)
-	print("→ Entered state:", state_name)  # 👀
+	#print("→ Entered state:", state_name)  # 👀
 
 
 func _physics_process(delta):

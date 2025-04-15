@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://di26053osflx7"]
+
+[ext_resource type="Script" uid="uid://c1eoicr807naw" path="res://Util/Items/PickableObject.gd" id="1_nfg5o"]
+
+[node name="RigidBody3D" type="RigidBody3D" groups=["pickable"]]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+script = ExtResource("1_nfg5o")
+
+[node name="PickableObject" type="Node3D" parent="."]

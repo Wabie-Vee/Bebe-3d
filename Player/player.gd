@@ -9,9 +9,15 @@ extends CharacterBody3D
 
 #region === CONFIGURATION ===
 @export var original_move_speed := 6
-@export var sprint_multiplier := 1.2
+@export var sprint_multiplier := 1.4
 @onready var move_speed := original_move_speed
 @onready var sprint_speed := move_speed * sprint_multiplier
+@onready var bebe_anim = $BebePivot/BebeBear/AnimationPlayer
+@onready var anim_tree = $BebePivot/BebeBear/AnimationTree
+@onready var animation_tree = $BebePivot/BebeBear/AnimationTree
+@onready var move_blend_path := "parameters/MoveBlend/blend_position"
+@onready var anim_speed = original_move_speed
+var current_anim_state := ""
 @export var gravity := -24.8
 @export var slide_factor := 5.0
 @export var jump_velocity := 5.0
@@ -20,6 +26,8 @@ extends CharacterBody3D
 @export var jump_gravity_scale := 0.3
 @export var rotation_speed := 8.0
 @export var mouse_sensitivity := 0.002
+@export var turn_threshold := 30.0
+@export var turn_speed := 5.0
 
 @export var sfx_jump : AudioStream
 @export var sfx_footstep : AudioStream
@@ -36,11 +44,22 @@ extends CharacterBody3D
 @onready var camera_rig = $Pivot/CameraPivot/CameraRig
 @onready var game_camera = $Pivot/CameraPivot/CameraRig/GameCamera
 @onready var mesh = $MeshInstance3D
+@onready var bebe_mesh = $BebePivot/BebeBear
+@onready var bebe_pivot = $BebePivot
 @onready var UI = $UI
 @onready var pickup_handler = $PickupHandler
 @onready var state_machine = preload("res://Player/PlayerStateMachine.gd").new(self)
 @onready var debug_hud = $DebugHUD
 @onready var debug_label = debug_hud.get_node("DebugLabel") if debug_hud else null
+
+enum CursorState{
+	NONE,
+	TALK,
+	GRAB
+}
+
+var cursor_state = CursorState.NONE
+@onready var reticle_sprite = $UI/TextureRect
 
 var debug_mode := false
 
@@ -49,13 +68,17 @@ var fov_transition_speed := 10.0
 var max_z_speed_for_fov := 10.0
 
 var headbob_timer := 0.0
-var headbob_amplitude := 0.1
+@onready var headbob_amplitude := 0.05
 var headbob_enabled := true
 
 var last_headbob_value := 0.0
 var footstep_played_this_cycle := false
 
 @onready var headbob_origin = game_camera.transform.origin
+
+#=== RAYCAST ===
+@onready var raycast = $Pivot/CameraPivot/CameraRig/GameCamera/RayCast3D
+var current_target = null
 
 var camera_lean_angle := 0.0
 var max_lean_angle := deg_to_rad(2.5)
@@ -77,6 +100,7 @@ func _ready():
 	print("SFX JUMP AT READY:", sfx_jump)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	state_machine._ready()
+
 #endregion
 
 #region === INPUT ===
@@ -99,23 +123,110 @@ func _physics_process(delta):
 
 	var result = space_state.intersect_ray(query)
 
-	if result and result.collider.is_in_group("pickable") and pickup_handler.held_object == null:
-		reticle.texture = hover_reticle
-	else:
-		reticle.texture = default_reticle
+	
 	handle_inputs()
-
-
+	handle_raycast()
+	update_cursor_state()
 	handle_camera_look()
+	handle_bebe_pivot(delta)
 	state_machine._physics_process(delta)
 	move_and_slide()
 	apply_camera_lean(delta)
 	handle_headbob(delta)
 	update_fov(delta)
 	update_debug_text()
+	var move_speed = velocity.length()
+	
+	
+	if animation_tree:
+		animation_tree.set("parameters/MoveBlend/blend_position", velocity.length())
+	else:
+		print("⚠️ AnimationTree is null! Check the node path.")
+		
+	anim_speed = move_speed # adjust divisor to match "normal" walk speed
+
+	animation_tree.set("parameters/MoveBlend/Walk/time_scale", anim_speed)
 #endregion
 
+
+
+func handle_bebe_pivot(delta):
+	var pivot_yaw = wrapf(pivot.rotation_degrees.y, 0, 360)
+	var bebe_yaw = wrapf(bebe_pivot.rotation_degrees.y, 0, 360)
+	var angle_diff = abs(pivot_yaw - bebe_yaw)
+	
+	if angle_diff > turn_threshold:
+		# Convert degrees to radians since .rotation uses radians
+		var target_yaw = deg_to_rad(pivot_yaw)
+		var current_yaw = bebe_pivot.rotation.y
+		bebe_pivot.rotation.y = lerp_angle(current_yaw, target_yaw, delta * turn_speed)
+	
+
+		
+func handle_raycast():
+	
+	if raycast.is_colliding():
+		var hit = raycast.get_collider()
+		var possible = hit
+		var found_interactable = null
+
+		# Climb the tree to find an Interactable
+		for i in range(5):
+			if possible == null:
+				break
+			if possible is Interactable:
+				found_interactable = possible
+				break
+			possible = possible.get_parent()
+
+		if found_interactable and found_interactable.player_in_range:
+			if current_target and current_target != found_interactable:
+				current_target.unhighlight()
+			current_target = found_interactable
+			current_target.highlight(self)
+
+			if Input.is_action_just_pressed("key_interact") and not current_target.reading:
+				current_target._enter()
+		else:
+			if current_target:
+				current_target.unhighlight()
+				current_target = null
+	else:
+		if current_target:
+			current_target.unhighlight()
+			current_target = null
 #region === INPUT HANDLING ===
+
+func update_cursor_state():
+	var new_state = CursorState.NONE
+
+	if raycast.is_colliding():
+		var hit = raycast.get_collider()
+		var possible = hit
+		for i in range(5):
+			if possible == null:
+				break
+			if possible.is_in_group("interactable"):
+				new_state = CursorState.TALK
+				break
+			elif possible.is_in_group("pickable"):
+				new_state = CursorState.GRAB
+				break
+			possible = possible.get_parent()
+
+	if new_state != cursor_state:
+		cursor_state = new_state
+		update_reticle_sprite()
+		
+func update_reticle_sprite():
+	match cursor_state:
+		CursorState.NONE:
+			reticle_sprite.texture = preload("res://Textures/UI/Cursor.png")
+		CursorState.TALK:
+			reticle_sprite.texture = preload("res://Textures/UI/CursorSpeak.png")
+		CursorState.GRAB:
+			reticle_sprite.texture = preload("res://Textures/UI/CursorSelect.png")
+
 func handle_inputs():
 	if Input.is_action_just_pressed("key_interact"):
 		if pickup_handler.held_object:
