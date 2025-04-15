@@ -8,12 +8,13 @@ extends CharacterBody3D
 #endregion
 
 #region === CONFIGURATION ===
-@export var original_move_speed := 8.0
+@export var original_move_speed := 6
+@export var sprint_multiplier := 1.2
 @onready var move_speed := original_move_speed
-@onready var sprint_speed := move_speed * 1.5
+@onready var sprint_speed := move_speed * sprint_multiplier
 @export var gravity := -24.8
 @export var slide_factor := 5.0
-@export var jump_velocity := 10.0
+@export var jump_velocity := 5.0
 @export var min_jump_time := 0.1
 @export var max_jump_hold_time := 0.25
 @export var jump_gravity_scale := 0.3
@@ -48,9 +49,12 @@ var fov_transition_speed := 10.0
 var max_z_speed_for_fov := 10.0
 
 var headbob_timer := 0.0
-var headbob_frequency := 15.0
 var headbob_amplitude := 0.1
 var headbob_enabled := true
+
+var last_headbob_value := 0.0
+var footstep_played_this_cycle := false
+
 @onready var headbob_origin = game_camera.transform.origin
 
 var camera_lean_angle := 0.0
@@ -175,13 +179,37 @@ func update_fov(delta):
 
 #region === HEADBOB ===
 func handle_headbob(delta):
+	
+	var headbob_frequency = move_speed * 3
 	if headbob_enabled and is_on_floor() and velocity.length() > 0.1:
 		headbob_timer += delta * headbob_frequency
-		var bob_offset = Vector3(0, sin(headbob_timer) * headbob_amplitude, 0)
-		var target_pos = headbob_origin + bob_offset
-		game_camera.transform.origin = lerp(game_camera.transform.origin, target_pos, 10 * delta)
+		var bob_value = sin(headbob_timer)
+		var y_offset = bob_value * headbob_amplitude
+		var current_pos = cam_pivot.transform.origin
+		var target_y = headbob_origin.y + y_offset
+		current_pos.y = lerp(current_pos.y, target_y, 10 * delta)
+		cam_pivot.transform.origin = current_pos
+
+		# === Footstep sync logic ===
+		# Detect when sine wave is coming *up* from its lowest point
+		if last_headbob_value < -0.95 and bob_value >= last_headbob_value and not footstep_played_this_cycle:
+			play_footstep_sfx()
+			footstep_played_this_cycle = true
+
+		# Reset once sine wave has gone back above 0 (cycle complete)
+		if bob_value > 0.1:
+			footstep_played_this_cycle = false
+
+		last_headbob_value = bob_value
 	else:
-		game_camera.transform.origin = lerp(game_camera.transform.origin, headbob_origin, 5 * delta)
+		var current_pos = cam_pivot.transform.origin
+		current_pos.y = lerp(current_pos.y, headbob_origin.y, 5 * delta)
+		cam_pivot.transform.origin = current_pos
+
+		# Reset footstep cycle if we stop moving
+		last_headbob_value = 0.0
+		footstep_played_this_cycle = false
+
 #endregion
 
 #region === CAN STAND ===

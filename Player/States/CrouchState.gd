@@ -16,12 +16,15 @@ func enter(player):
 	original_height = collider.shape.height
 	original_camera_offset = player.camera_rig.position
 
+	var new_camera_position = original_camera_offset
+	new_camera_position.z += camera_offset.z  # Only modify Z
+
 	tween.set_parallel()
 	tween.tween_property(collider.shape, "height", crouch_height, 0.2)\
 		.set_trans(Tween.TRANS_SINE)\
 		.set_ease(Tween.EASE_OUT)
 
-	tween.tween_property(player.camera_rig, "position", camera_offset, 0.2)\
+	tween.tween_property(player.camera_rig, "position", new_camera_position, 0.2)\
 		.set_trans(Tween.TRANS_SINE)\
 		.set_ease(Tween.EASE_OUT)
 
@@ -60,7 +63,7 @@ func physics_update(player, delta):
 
 	var speed = player.move_speed
 	if player.sprinting:
-		speed = player.sprint_speed
+		player.state_machine.set_state("RunState")
 
 	player.velocity.x = lerp(player.velocity.x, direction.x * speed, player.slide_factor * delta)
 	player.velocity.z = lerp(player.velocity.z, direction.z * speed, player.slide_factor * delta)
@@ -68,17 +71,7 @@ func physics_update(player, delta):
 	var target_rotation = atan2(direction.x, direction.z) + PI
 	player.mesh.rotation.y = lerp_angle(player.mesh.rotation.y, target_rotation, player.rotation_speed * delta)
 
-	# Footstep sound
-	if player.is_on_floor() and player.velocity.length() > 0.1:
-		footstep_timer -= delta
-		if footstep_timer <= 0.0:
-			SoundManager.play_sfx(player.sfx_footstep, true) # true = randomize pitch
-			var speed_multiplier = 1.0
-			if player.sprinting:
-				speed_multiplier = 1.5
-			footstep_timer = footstep_interval / speed_multiplier
-	else:
-		footstep_timer = 0.0
+
 
 	
 func handle_input(player, event):

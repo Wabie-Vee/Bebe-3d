@@ -41,13 +41,3 @@ func physics_update(player, delta):
 	player.mesh.rotation.y = lerp_angle(player.mesh.rotation.y, target_rotation, player.rotation_speed * delta)
 
 	# Footstep sound
-	if player.is_on_floor() and player.velocity.length() > 0.1:
-		footstep_timer -= delta
-		if footstep_timer <= 0.0:
-			SoundManager.play_sfx(player.sfx_footstep, true) # true = randomize pitch
-			var speed_multiplier = 1.0
-			if player.sprinting:
-				speed_multiplier = 1.5
-			footstep_timer = footstep_interval / speed_multiplier
-	else:
-		footstep_timer = 0.0
