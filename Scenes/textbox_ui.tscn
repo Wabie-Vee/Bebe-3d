@@ -1,9 +1,23 @@
-[gd_scene load_steps=2 format=3 uid="uid://bdu3lfl8ecjn7"]
+[gd_scene load_steps=6 format=3 uid="uid://bdu3lfl8ecjn7"]
 
-[ext_resource type="Script" path="res://Util/textbox_ui.gd" id="1_gorxe"]
+<<<<<<< HEAD
+[ext_resource type="Script" uid="uid://b3ii412sef2kg" path="res://Util/Dialogue_Textboxes/textbox_ui.gd" id="1_gorxe"]
+
+[sub_resource type="Theme" id="Theme_ax67c"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_8jlhq"]
+
+[sub_resource type="SystemFont" id="SystemFont_ax67c"]
+subpixel_positioning = 0
+
+[sub_resource type="Theme" id="Theme_8jlhq"]
+default_font = SubResource("SystemFont_ax67c")
+default_font_size = 35
+=======
+[ext_resource type="Script" uid="uid://b3ii412sef2kg" path="res://Util/textbox_ui.gd" id="1_gorxe"]
+>>>>>>> parent of 6ab4154 (added crouch mechanic and fixed up some pixelation stuff)
 
 [node name="TextboxUI" type="CanvasLayer"]
-layer = 2
 script = ExtResource("1_gorxe")
 
 [node name="Panel" type="Panel" parent="."]
@@ -16,6 +30,7 @@ offset_right = -200.0
 offset_bottom = -200.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_ax67c")
 
 [node name="Label" type="Label" parent="Panel"]
 visible = false
@@ -28,13 +43,35 @@ horizontal_alignment = 1
 vertical_alignment = 1
 justification_flags = 161
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
+[node name="TextureRect" type="TextureRect" parent="Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = SubResource("ImageTexture_8jlhq")
+
+[node name="ColorRect" type="ColorRect" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.325752, 0.242871, 0.131684, 0.439216)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
+visibility_layer = 3
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_8jlhq")
 bbcode_enabled = true
 text = "[b][wave amp = 50 freq=2]heyyy[/wave] somebody forgot to put some [shake][color=red]dialogue[/color][/shake] hereeee!!"
 scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1

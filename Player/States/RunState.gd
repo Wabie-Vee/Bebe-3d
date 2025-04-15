@@ -6,10 +6,6 @@ var footstep_interval := 0.3
 
 func enter(player):
 	footstep_timer = 0.0
-	
-func handle_input(player, event):
-	if event.is_action_pressed("key_crouch"):
-		player.state_machine.set_state("CrouchState")
 
 func physics_update(player, delta):
 	if player.jump_pressed and player.is_on_floor():

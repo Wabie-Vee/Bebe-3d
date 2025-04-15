@@ -5,7 +5,6 @@ const RunState = preload("res://Player/States/RunState.gd")
 const JumpState = preload("res://Player/States/JumpState.gd")
 const FallState = preload("res://Player/States/FallState.gd")
 const LockedState = preload("res://Player/States/LockedState.gd")
-const CrouchState = preload("res://Player/States/CrouchState.gd")
 
 var states = {}
 var current_state = null
@@ -20,8 +19,7 @@ func _ready():
 	"RunState": RunState.new(),
 	"JumpState": JumpState.new(),
 	"FallState": FallState.new(),
-	"LockedState": LockedState.new(),
-	"CrouchState": CrouchState.new()
+	"LockedState": LockedState.new()
 	}
 	set_state("IdleState")
 

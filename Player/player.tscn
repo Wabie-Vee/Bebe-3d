@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://0b5b81u1itr7"]
+[gd_scene load_steps=14 format=3 uid="uid://0b5b81u1itr7"]
 
 [ext_resource type="Script" uid="uid://dq1cwdafxd3cp" path="res://Player/player.gd" id="1_2grdm"]
 [ext_resource type="AudioStream" uid="uid://c4p0fhkumqsxh" path="res://Sounds/cartoon_jump.ogg" id="2_if20t"]
@@ -8,11 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://ds70q3yx8puki" path="res://Textures/UI/Cursor.png" id="5_k53q1"]
 [ext_resource type="Shader" uid="uid://dgjmjbhcx1oul" path="res://Player/player.gdshader" id="6_vtle1"]
 [ext_resource type="Shader" uid="uid://cy1n5ok8t6w4f" path="res://Player/VHS.gdshader" id="8_00tjw"]
-[ext_resource type="PackedScene" uid="uid://cdo0t3pr762wx" path="res://Util/DebugHUD.tscn" id="9_x3vf3"]
-[ext_resource type="PackedScene" uid="uid://bdu3lfl8ecjn7" path="res://Scenes/textbox_ui.tscn" id="10_apopc"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h4r72"]
-height = 1.49325
 
 [sub_resource type="QuadMesh" id="QuadMesh_od3ui"]
 flip_faces = true
@@ -26,25 +23,23 @@ shader_parameter/fog_color = Color(0.545516, 0.668754, 0.725607, 1)
 shader_parameter/noise_color = Color(0, 0, 0, 1)
 shader_parameter/fog_distance = 450.329
 shader_parameter/fog_fade_range = 2.0
-shader_parameter/enable_noise = false
+shader_parameter/enable_noise = true
 shader_parameter/noise_time_fac = 5.642
 shader_parameter/enable_color_limitation = true
 shader_parameter/color_levels = 32
-shader_parameter/enable_dithering = false
+shader_parameter/enable_dithering = true
 shader_parameter/dither_strength = 0.3
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_btcbx"]
-radius = 0.556
-height = 1.51
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_apopc"]
 shader = ExtResource("8_00tjw")
 shader_parameter/shake = 0.0
-shader_parameter/noiseQuality = 0.1
+shader_parameter/noiseQuality = 250.0
 shader_parameter/noiseIntensity = 0.0
 shader_parameter/offsetIntensity = 0.0
 shader_parameter/colorOffsetIntensity = 0.1
-shader_parameter/pixelSize = 6.0
+shader_parameter/pixelSize = 717.27
 shader_parameter/grainIntensity = 0.0
 shader_parameter/use_overlay = false
 shader_parameter/use_lens_distortion = false
@@ -60,21 +55,19 @@ sfx_jump = ExtResource("2_if20t")
 sfx_footstep = ExtResource("3_287nk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.251922, 0)
 shape = SubResource("CapsuleShape3D_h4r72")
 
 [node name="Pivot" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.338177, 0)
 
 [node name="CameraPivot" type="Node3D" parent="Pivot"]
 
 [node name="CameraRig" type="Node3D" parent="Pivot/CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.475, 0)
 
 [node name="GameCamera" type="Camera3D" parent="Pivot/CameraPivot/CameraRig"]
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Pivot/CameraPivot/CameraRig/GameCamera"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.245686, -27.192)
-transparency = 1.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.245686, -1.51213)
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_od3ui")
 skeleton = NodePath("../../../../..")
@@ -92,7 +85,6 @@ bus = &"SFX"
 [node name="SFXJump" type="AudioStreamPlayer3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.23173, 0)
 mesh = SubResource("CapsuleMesh_btcbx")
 
 [node name="PickupHandler" type="Node3D" parent="." node_paths=PackedStringArray("hold_point", "camera")]
@@ -101,7 +93,6 @@ hold_point = NodePath("../Pivot/CameraPivot/CameraRig/HoldPoint")
 camera = NodePath("../Pivot/CameraPivot/CameraRig/GameCamera")
 
 [node name="UI" type="CanvasLayer" parent="."]
-layer = 2
 
 [node name="TextureRect" type="TextureRect" parent="UI"]
 anchors_preset = 8
@@ -117,9 +108,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("5_k53q1")
 
-[node name="PostProcessing" type="CanvasLayer" parent="."]
-
-[node name="ColorRect" type="ColorRect" parent="PostProcessing"]
+[node name="ColorRect" type="ColorRect" parent="UI"]
 material = SubResource("ShaderMaterial_apopc")
 anchors_preset = 15
 anchor_right = 1.0
@@ -127,8 +116,3 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-
-[node name="DebugHUD" parent="." groups=["player"] instance=ExtResource("9_x3vf3")]
-layer = 2
-
-[node name="TextboxUI" parent="." instance=ExtResource("10_apopc")]
