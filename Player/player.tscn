@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://0b5b81u1itr7"]
+[gd_scene load_steps=17 format=3 uid="uid://0b5b81u1itr7"]
 
 [ext_resource type="Script" uid="uid://dq1cwdafxd3cp" path="res://Player/player.gd" id="1_2grdm"]
 [ext_resource type="Texture2D" uid="uid://fbmiuyig18x6" path="res://Textures/UI/CursorSelect.png" id="3_fhl08"]
@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://comsm8vajad2b" path="res://Sounds/sfx_footstep2.wav" id="5_apopc"]
 [ext_resource type="Texture2D" uid="uid://ds70q3yx8puki" path="res://Textures/UI/Cursor.png" id="5_k53q1"]
 [ext_resource type="Shader" uid="uid://dgjmjbhcx1oul" path="res://Player/player.gdshader" id="6_vtle1"]
+[ext_resource type="PackedScene" uid="uid://dkyhllirpsase" path="res://Models/LilBebe.glb" id="7_apopc"]
 [ext_resource type="Shader" path="res://Player/VHS.gdshader" id="8_00tjw"]
 [ext_resource type="PackedScene" uid="uid://cdo0t3pr762wx" path="res://Util/DebugHUD.tscn" id="9_x3vf3"]
 [ext_resource type="PackedScene" uid="uid://bdu3lfl8ecjn7" path="res://Scenes/textbox_ui.tscn" id="10_apopc"]
@@ -52,7 +53,6 @@ shader_parameter/overlay_color = Color(1, 1, 1, 10)
 shader_parameter/lens_distortion_strength = 0.0
 
 [node name="Player" type="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00276542, 1.49012e-08, 0.00192547)
 script = ExtResource("1_2grdm")
 default_reticle = ExtResource("5_k53q1")
 hover_reticle = ExtResource("3_fhl08")
@@ -67,6 +67,7 @@ shape = SubResource("CapsuleShape3D_h4r72")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.338177, 0)
 
 [node name="CameraPivot" type="Node3D" parent="Pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.243301, 0)
 
 [node name="CameraRig" type="Node3D" parent="Pivot/CameraPivot"]
 
@@ -83,6 +84,9 @@ surface_material_override/0 = SubResource("ShaderMaterial_00tjw")
 [node name="HoldPoint" type="Marker3D" parent="Pivot/CameraPivot/CameraRig"]
 transform = Transform3D(0.887811, -0.341708, -0.308265, 0.382349, 0.920475, 0.0808372, 0.256128, -0.189633, 0.94786, 0.738667, -0.646755, -0.626619)
 
+[node name="LilBebe" parent="Pivot" instance=ExtResource("7_apopc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.569907, 0.308344)
+
 [node name="PlayerSFX" type="AudioStreamPlayer3D" parent="."]
 unique_name_in_owner = true
 bus = &"SFX"
@@ -93,6 +97,7 @@ bus = &"SFX"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.23173, 0)
+visible = false
 mesh = SubResource("CapsuleMesh_btcbx")
 
 [node name="PickupHandler" type="Node3D" parent="." node_paths=PackedStringArray("hold_point", "camera")]
