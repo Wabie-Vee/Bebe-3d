@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://ctpbne1nipsoj"]
 
 [ext_resource type="PackedScene" uid="uid://0b5b81u1itr7" path="res://Player/player.tscn" id="1_fghy3"]
-[ext_resource type="Script" uid="uid://c3blt42uoailc" path="res://Scenes/Levels/DefaultLevel.gd" id="1_tb433"]
+[ext_resource type="Script" path="res://Scenes/Levels/DefaultLevel.gd" id="1_tb433"]
 [ext_resource type="PackedScene" uid="uid://bdu3lfl8ecjn7" path="res://Scenes/textbox_ui.tscn" id="3_ydqp7"]
 [ext_resource type="PackedScene" uid="uid://cdo0t3pr762wx" path="res://Util/DebugHUD.tscn" id="4_ylvlc"]
 [ext_resource type="PackedScene" uid="uid://cqdsets4netse" path="res://Scenes/audio_stream_player_3d.tscn" id="5_mhdeb"]
@@ -17,7 +17,10 @@ sky_material = SubResource("ProceduralSkyMaterial_tb433")
 background_mode = 2
 background_energy_multiplier = 0.0
 sky = SubResource("Sky_kmrqx")
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.0
 tonemap_mode = 2
+ssr_enabled = true
 glow_enabled = true
 fog_light_color = Color(0.493277, 0.561501, 0.608517, 1)
 fog_light_energy = 0.69
