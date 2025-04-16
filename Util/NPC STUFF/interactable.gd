@@ -1,7 +1,6 @@
 extends Area3D
 class_name Interactable
 
-@export var message: String = "Default interaction message."
 @export_range(0, 1) var face_threshold := 0.6
 
 @onready var icon = $InteractIcon
@@ -14,7 +13,7 @@ var reading = false
 var reading_input_cooldown = 0.2  # seconds
 
 
-var dialog = [
+@export var dialog = [
 	"hi there!",
 	"this is the second textbox!",
 	"okay now this is the last one..."
