@@ -52,6 +52,8 @@ var current_anim_state := ""
 @onready var debug_hud = $DebugHUD
 @onready var debug_label = debug_hud.get_node("DebugLabel") if debug_hud else null
 
+@onready var debug_raycast: Node3D = null
+
 enum CursorState{
 	NONE,
 	TALK,
@@ -164,24 +166,41 @@ func handle_bebe_pivot(delta):
 
 		
 func handle_raycast():
-	
 	if raycast.is_colliding():
 		var hit = raycast.get_collider()
-		var possible = hit
 		var found_interactable = null
+		var possible = hit
 
-		# Climb the tree to find an Interactable
+		# Search up to 5 levels of parents and their children
 		for i in range(5):
 			if possible == null:
 				break
+
+			# Check if current node is an Interactable
 			if possible is Interactable:
 				found_interactable = possible
 				break
+
+			# Recursive child search (inlined)
+			var stack = possible.get_children()
+			while not stack.is_empty():
+				var child = stack.pop_back()
+				if child is Interactable:
+					found_interactable = child
+					break
+				stack += child.get_children()
+
+			if found_interactable != null:
+				break
+
+			# Move up to the parent
 			possible = possible.get_parent()
 
+		# Handle interaction logic
 		if found_interactable and found_interactable.player_in_range:
 			if current_target and current_target != found_interactable:
 				current_target.unhighlight()
+
 			current_target = found_interactable
 			current_target.highlight(self)
 
@@ -195,6 +214,7 @@ func handle_raycast():
 		if current_target:
 			current_target.unhighlight()
 			current_target = null
+
 #region === INPUT HANDLING ===
 
 func update_cursor_state():
@@ -343,7 +363,9 @@ func update_debug_text():
 			"Velocity: %.2f\n" % velocity.length() +
 			"On Floor: %s\n" % str(is_on_floor()) +
 			"Sprinting: %s\n" % str(sprinting) +
-			"State: %s\n" % state_machine.current_state.get_script().resource_path.get_file().get_basename()
+			"State: %s\n" % state_machine.current_state.get_script().resource_path.get_file().get_basename() +
+			"Looking At: %s" % debug_raycast
+			
 		)
 	else:
 		debug_label.text = ""

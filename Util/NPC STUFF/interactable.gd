@@ -58,12 +58,16 @@ func highlight(_player_ref):
 	can_interact = true
 	
 	print("Highlight called on:", self)
+	player_ref.debug_raycast = self
 
 func unhighlight():
 	if icon.visible:
 		icon.visible = false
 		animator.stop()
 	can_interact = false
+	if player_ref.debug_raycast:
+		player_ref.debug_raycast = null
+	
 
 func _hide_icon():
 	if icon.visible:
