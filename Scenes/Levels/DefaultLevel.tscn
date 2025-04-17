@@ -25,6 +25,7 @@ sdfgi_enabled = true
 glow_enabled = true
 fog_light_color = Color(0.208812, 0.207246, 0.282081, 1)
 volumetric_fog_enabled = true
+volumetric_fog_density = 0.0399
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_fghy3"]
 size = Vector2(100, 100)
@@ -40,7 +41,8 @@ environment = SubResource("Environment_cst55")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.85171, 0.453809, -0.262006, 1.47562e-08, 0.499998, 0.866027, 0.524012, 0.737604, -0.425854, 0, 0, 0)
-visible = false
+light_color = Color(0.809096, 0.980368, 1, 1)
+light_energy = 1.5
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_fghy3")]
@@ -53,7 +55,6 @@ mesh = SubResource("PlaneMesh_fghy3")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Default Floor/StaticBody3D2"]
 shape = SubResource("ConcavePolygonShape3D_rjxb0")
-debug_color = Color(0, 0.6, 0.7, 0.42)
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 

@@ -21,7 +21,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if player_ref != null:
 		look_at_final.global_position = look_at_final.global_position.lerp(
-			player_ref.camera_rig.global_position,
+			player_ref.game_camera.global_position,
 			look_speed * delta
 		)
 	else:

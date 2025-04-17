@@ -25,10 +25,6 @@ SoundManager="*res://Util/SoundManager.gd"
 Macro="*res://Util/MACRO.gd"
 GameManager="*res://Util/GAME_MANAGER.gd"
 
-[debug]
-
-shapes/collision/shape_color=Color(0.995213, 0, 0.209153, 0.42)
-
 [file_customization]
 
 folder_colors={

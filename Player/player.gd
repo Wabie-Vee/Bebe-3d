@@ -65,6 +65,8 @@ var cursor_state = CursorState.NONE
 
 var debug_mode := false
 
+var vertical_look_angle := 0.0 # Put this in your internal vars section
+
 var max_fov := base_fov + 10
 var fov_transition_speed := 10.0
 var max_z_speed_for_fov := 10.0
@@ -289,8 +291,11 @@ func handle_inputs():
 #region === CAMERA ===
 func handle_camera_look():
 	pivot.rotate_y(-look_delta.x * mouse_sensitivity)
-	cam_pivot.rotate_x(-look_delta.y * mouse_sensitivity)
-	cam_pivot.rotation.x = clamp(cam_pivot.rotation.x, deg_to_rad(-80), deg_to_rad(80))
+	
+	vertical_look_angle += -look_delta.y * mouse_sensitivity
+	vertical_look_angle = clamp(vertical_look_angle, deg_to_rad(-80), deg_to_rad(80))
+	
+	game_camera.rotation.x = vertical_look_angle
 	look_delta = Vector2.ZERO
 
 func apply_camera_lean(delta):
