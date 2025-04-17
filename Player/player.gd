@@ -26,7 +26,7 @@ var current_anim_state := ""
 @export var jump_gravity_scale := 0.3
 @export var rotation_speed := 8.0
 @export var mouse_sensitivity := 0.002
-@export var turn_threshold := 30.0
+@export var turn_threshold := 5.0
 @export var turn_speed := 5.0
 
 @export var sfx_jump : AudioStream
@@ -114,7 +114,7 @@ func _unhandled_input(event):
 
 #region === PHYSICS PROCESS ===
 func _physics_process(delta):
-	
+	can_double_jump = false;
 	
 	var space_state = get_world_3d().direct_space_state
 	var from = game_camera.global_position

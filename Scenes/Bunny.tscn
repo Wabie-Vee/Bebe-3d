@@ -7,6 +7,9 @@
 [node name="Bunny" instance=ExtResource("1_suujd")]
 script = ExtResource("2_r3nx3")
 
+[node name="CollisionShape3D" parent="collider" index="0"]
+debug_color = Color(0, 0.6, 0.7, 0.42)
+
 [node name="cs_grp" parent="char_grp" index="0"]
 visible = false
 
@@ -130,6 +133,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.710032, 1.31343)
 
 [node name="CollisionShape3D" parent="Interactable" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0817888, 0, 0.161323)
+debug_color = Color(0, 0.6, 0.7, 0.42)
 
 [node name="LookAtDefault" type="Marker3D" parent="." index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.704477, 1.20676)

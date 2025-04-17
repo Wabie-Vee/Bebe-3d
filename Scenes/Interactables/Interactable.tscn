@@ -12,6 +12,7 @@ face_threshold = 0.975
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_2oml2")
+debug_color = Color(0, 0.6, 0.7, 0.42)
 
 [node name="InteractIcon" type="Node3D" parent="."]
 
