@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://c46jjvtjm84tl" path="res://Blender/TrashBin.blend" id="5_yrfhp"]
 [ext_resource type="PackedScene" uid="uid://cvgwpsxibuojm" path="res://Models/RachelsFirstPictureFramewithFish.glb" id="7_q5jhw"]
 [ext_resource type="PackedScene" uid="uid://ceypapyp15i1v" path="res://Scenes/Grass.tscn" id="10_q5jhw"]
-[ext_resource type="PackedScene" uid="uid://b7xsealfcg3ph" path="res://Scenes/Bunny.tscn" id="11_4pm4d"]
+[ext_resource type="PackedScene" path="res://Scenes/Bunny.tscn" id="11_4pm4d"]
 [ext_resource type="PackedScene" uid="uid://brcs4tf8b1gx6" path="res://Models/grass.glb" id="11_ekdwm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4pm4d"]
