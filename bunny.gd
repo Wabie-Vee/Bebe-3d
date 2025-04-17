@@ -11,7 +11,12 @@ var player_in_range: bool = false
 @onready var look_at_default: Marker3D = $LookAtDefault
 @onready var look_at_final: Marker3D = $LookAtDefault/LookAtFinal
 @onready var look_at_modifier_3d: LookAtModifier3D = $char_grp/rig/Skeleton3D/LookAtModifier3D
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
+
+func _ready() -> void:
+	animation_player.play("BunnyIdle")
+	
 # === Physics Loop ===
 func _physics_process(delta: float) -> void:
 	if player_ref != null:

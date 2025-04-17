@@ -24,6 +24,7 @@ ssr_enabled = true
 sdfgi_enabled = true
 glow_enabled = true
 fog_light_color = Color(0.208812, 0.207246, 0.282081, 1)
+volumetric_fog_enabled = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_fghy3"]
 size = Vector2(100, 100)

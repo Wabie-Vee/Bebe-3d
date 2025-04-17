@@ -205,7 +205,8 @@ func handle_raycast():
 			current_target.highlight(self)
 
 			if Input.is_action_just_pressed("key_interact") and not current_target.reading:
-				current_target._enter()
+				if cursor_state == CursorState.TALK:
+					current_target._enter()
 		else:
 			if current_target:
 				current_target.unhighlight()

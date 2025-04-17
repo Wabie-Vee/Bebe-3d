@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ccc32qh0o3gxx" path="res://Textures/finger point.png" id="2_6lvni"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2oml2"]
-size = Vector3(2.87598, 1.52136, 2.62549)
+size = Vector3(3.04688, 1.04492, 2.29173)
 
 [node name="Interactable" type="Area3D" groups=["interactable"]]
 script = ExtResource("1_i5c30")
