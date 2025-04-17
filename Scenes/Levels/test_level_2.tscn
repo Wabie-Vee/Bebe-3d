@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=4 uid="uid://bk5rsxkvw5qqb"]
+[gd_scene load_steps=35 format=4 uid="uid://bk5rsxkvw5qqb"]
 
 [ext_resource type="PackedScene" uid="uid://ctpbne1nipsoj" path="res://Scenes/Levels/DefaultLevel.tscn" id="1_p5xj4"]
 [ext_resource type="Texture2D" uid="uid://lq7lp0aundtk" path="res://Textures/GrassPlaceHolder.png" id="2_ce3qu"]
@@ -11,8 +11,9 @@
 [ext_resource type="PackedScene" uid="uid://c46jjvtjm84tl" path="res://Blender/TrashBin.blend" id="5_yrfhp"]
 [ext_resource type="PackedScene" uid="uid://cvgwpsxibuojm" path="res://Models/RachelsFirstPictureFramewithFish.glb" id="7_q5jhw"]
 [ext_resource type="PackedScene" uid="uid://ceypapyp15i1v" path="res://Scenes/Grass.tscn" id="10_q5jhw"]
-[ext_resource type="PackedScene" path="res://Scenes/Bunny.tscn" id="11_4pm4d"]
+[ext_resource type="PackedScene" uid="uid://b7xsealfcg3ph" path="res://Scenes/Bunny.tscn" id="11_4pm4d"]
 [ext_resource type="PackedScene" uid="uid://brcs4tf8b1gx6" path="res://Models/grass.glb" id="11_ekdwm"]
+[ext_resource type="PackedScene" uid="uid://bo1mrjlhd8gop" path="res://Blender/RedCoffeeTable.blend" id="12_4pm4d"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4pm4d"]
 albedo_texture = ExtResource("2_ce3qu")
@@ -144,16 +145,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.03975, 0.343451, -1.03474)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DefaultLevel/LevelGeometry/BebeBead/BedFrame/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_2fepc")
+debug_color = Color(0.995213, 0, 0.209153, 0.42)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="DefaultLevel/LevelGeometry/BebeBead/Mattress" index="0"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DefaultLevel/LevelGeometry/BebeBead/Mattress/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_xvm3m")
+debug_color = Color(0.995213, 0, 0.209153, 0.42)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="DefaultLevel/LevelGeometry/BebeBead/Blanket" index="0"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DefaultLevel/LevelGeometry/BebeBead/Blanket/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_c0pcb")
+debug_color = Color(0.995213, 0, 0.209153, 0.42)
 
 [node name="LampPost" parent="DefaultLevel/LevelGeometry" index="1" instance=ExtResource("3_2fepc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.78589, 0, -5.94907)
@@ -205,6 +209,7 @@ skeleton = NodePath("../../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DefaultLevel/LevelGeometry/Box/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_4pm4d")
+debug_color = Color(0.995213, 0, 0.209153, 0.42)
 
 [node name="RachelsFirstPictureFramewithFish" parent="DefaultLevel/LevelGeometry" index="10" instance=ExtResource("7_q5jhw")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -6.8724, 1.32601, 0.765411)
@@ -222,6 +227,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5553, 0.0790901, -1.89787)
 [node name="Bunny" parent="DefaultLevel/Interactables" index="3" groups=["interactable"] instance=ExtResource("11_4pm4d")]
 transform = Transform3D(-0.101664, 0, 0.994819, 0, 1, 0, -0.994819, 0, -0.101664, -5.36376, -0.08461, -2.61566)
 
+[node name="RedCoffeeTable" parent="DefaultLevel/Interactables/Bunny/char_grp/rig/Skeleton3D" index="2" instance=ExtResource("12_4pm4d")]
+transform = Transform3D(-0.101664, 0, -0.994819, 0, 1, 0, 0.994819, 0, -0.101664, -4.87118, 0.0607472, 7.75366)
+
+[node name="Interactable" parent="DefaultLevel/Interactables/Bunny" index="2"]
+dialog = ["Hi [wave]Bebe!", "You're looking [wave]gooooood[/wave] today!", "[b][wave][shake]*KISS*"]
+
 [node name="GPUParticles3D" type="GPUParticles3D" parent="DefaultLevel/FX" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.734532, 0)
 material_override = SubResource("StandardMaterial3D_dny0j")
@@ -236,6 +247,7 @@ draw_skin = SubResource("Skin_q5jhw")
 
 [node name="MultiMeshInstance3D" parent="DefaultLevel" instance=ExtResource("10_q5jhw")]
 transform = Transform3D(0.555, 0, 0, 0, 0.555, 0, 0, 0, 0.555, -3.02897, -0.35916, -4.45005)
+visible = false
 multimesh = SubResource("MultiMesh_bmq30")
 
 [node name="grass" parent="DefaultLevel" instance=ExtResource("11_ekdwm")]
@@ -243,4 +255,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.39816, 0.0125831, 1.64618)
 
 [editable path="DefaultLevel"]
 [editable path="DefaultLevel/LevelGeometry/BebeBead"]
+[editable path="DefaultLevel/Interactables/Bunny"]
+[editable path="DefaultLevel/Interactables/Bunny/Interactable"]
 [editable path="DefaultLevel/grass"]

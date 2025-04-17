@@ -26,7 +26,7 @@ var current_anim_state := ""
 @export var jump_gravity_scale := 0.3
 @export var rotation_speed := 8.0
 @export var mouse_sensitivity := 0.002
-@export var turn_threshold := 30.0
+@export var turn_threshold := 5.0
 @export var turn_speed := 5.0
 
 @export var sfx_jump : AudioStream
@@ -64,6 +64,8 @@ var cursor_state = CursorState.NONE
 @onready var reticle_sprite = $UI/TextureRect
 
 var debug_mode := false
+
+var vertical_look_angle := 0.0 # Put this in your internal vars section
 
 var max_fov := base_fov + 10
 var fov_transition_speed := 10.0
@@ -114,7 +116,7 @@ func _unhandled_input(event):
 
 #region === PHYSICS PROCESS ===
 func _physics_process(delta):
-	
+	can_double_jump = false;
 	
 	var space_state = get_world_3d().direct_space_state
 	var from = game_camera.global_position
@@ -205,7 +207,8 @@ func handle_raycast():
 			current_target.highlight(self)
 
 			if Input.is_action_just_pressed("key_interact") and not current_target.reading:
-				current_target._enter()
+				if cursor_state == CursorState.TALK:
+					current_target._enter()
 		else:
 			if current_target:
 				current_target.unhighlight()
@@ -288,8 +291,11 @@ func handle_inputs():
 #region === CAMERA ===
 func handle_camera_look():
 	pivot.rotate_y(-look_delta.x * mouse_sensitivity)
-	cam_pivot.rotate_x(-look_delta.y * mouse_sensitivity)
-	cam_pivot.rotation.x = clamp(cam_pivot.rotation.x, deg_to_rad(-80), deg_to_rad(80))
+	
+	vertical_look_angle += -look_delta.y * mouse_sensitivity
+	vertical_look_angle = clamp(vertical_look_angle, deg_to_rad(-80), deg_to_rad(80))
+	
+	game_camera.rotation.x = vertical_look_angle
 	look_delta = Vector2.ZERO
 
 func apply_camera_lean(delta):
