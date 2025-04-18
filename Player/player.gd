@@ -316,8 +316,11 @@ func update_fov(delta):
 
 #region === HEADBOB ===
 func handle_headbob(delta):
-	
-	var headbob_frequency = move_speed * 3
+	var headbob_frequency
+	if !sprinting:
+		headbob_frequency = move_speed * 4
+	else:
+		headbob_frequency = move_speed * 10
 	if headbob_enabled and is_on_floor() and velocity.length() > 0.1:
 		headbob_timer += delta * headbob_frequency
 		var bob_value = sin(headbob_timer)
@@ -330,7 +333,7 @@ func handle_headbob(delta):
 		# === Footstep sync logic ===
 		# Detect when sine wave is coming *up* from its lowest point
 		if last_headbob_value < -0.95 and bob_value >= last_headbob_value and not footstep_played_this_cycle:
-			play_footstep_sfx()
+			SoundManager.play_sfx(sfx_footstep, true)
 			footstep_played_this_cycle = true
 
 		# Reset once sine wave has gone back above 0 (cycle complete)

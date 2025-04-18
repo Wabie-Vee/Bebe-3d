@@ -247,7 +247,6 @@ draw_skin = SubResource("Skin_q5jhw")
 
 [node name="MultiMeshInstance3D" parent="DefaultLevel" instance=ExtResource("10_q5jhw")]
 transform = Transform3D(0.555, 0, 0, 0, 0.555, 0, 0, 0, 0.555, -3.02897, -0.35916, -4.45005)
-visible = false
 multimesh = SubResource("MultiMesh_bmq30")
 
 [node name="grass" parent="DefaultLevel" instance=ExtResource("11_ekdwm")]

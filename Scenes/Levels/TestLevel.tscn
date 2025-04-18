@@ -8,12 +8,12 @@
 [ext_resource type="Texture2D" uid="uid://xawbx2wtnx0e" path="res://Textures/Dev2.png" id="8_sda17"]
 [ext_resource type="PackedScene" uid="uid://brcs4tf8b1gx6" path="res://Models/grass.glb" id="9_1fal7"]
 [ext_resource type="Texture2D" uid="uid://bpgvdpa7ktkpo" path="res://Textures/DevText 1mx1m.png" id="10_gcla0"]
-[ext_resource type="PackedScene" uid="uid://fh7mb0ron831" path="res://Textures/sign.tscn" id="11_vr6f4"]
 [ext_resource type="Shader" uid="uid://cv6smu3abs0ag" path="res://Grass.tres" id="12_u5cqy"]
 [ext_resource type="Texture2D" uid="uid://c7hfvdlb8tdck" path="res://Models/WindNoise.tres" id="13_u0op5"]
 [ext_resource type="PackedScene" uid="uid://nshjb3p0ppcl" path="res://Models/Bonnie.glb" id="14_1f27d"]
 [ext_resource type="PackedScene" uid="uid://di26053osflx7" path="res://Scenes/Pickable Object/PickableObject.tscn" id="15_pm77i"]
 [ext_resource type="PackedScene" uid="uid://wf10vgotfruy" path="res://Models/BebeBead.glb" id="16_hxr1x"]
+[ext_resource type="PackedScene" uid="uid://b7xsealfcg3ph" path="res://Scenes/Bunny.tscn" id="16_tqwjp"]
 [ext_resource type="PackedScene" uid="uid://dsu3yynbq8rof" path="res://Models/RachelsFirstPictureFrame.glb" id="16_xub2v"]
 [ext_resource type="PackedScene" uid="uid://dqernut8go0up" path="res://Util/Items/BonnieObject.tscn" id="17_8yhm2"]
 
@@ -188,13 +188,6 @@ skeleton = NodePath("../..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Cube2/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_86uqv")
 
-[node name="Sign" parent="Level" instance=ExtResource("11_vr6f4")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.16352, 1.0587, -6.33631)
-
-[node name="Sign2" parent="Level" instance=ExtResource("11_vr6f4")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.16352, 1.48341, -9.2775)
-message = "hey [wave]broooooo!!!!!![/wave]/nthis is a lil testy test"
-
 [node name="GrassMeshInstance" type="MultiMeshInstance3D" parent="Level"]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0.0175028, 0.134848, 0.00459099)
 material_override = SubResource("ShaderMaterial_ggavl")
@@ -228,6 +221,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.64747, 1.81562, 0.493656)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BebeBead/Mattress/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_tqwjp")
+
+[node name="Bunny" parent="." groups=["interactable", "pickable"] instance=ExtResource("16_tqwjp")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 6.02948, -0.00249779, -2.71275)
 
 [editable path="Level/Floor/grass"]
 [editable path="BebeBead"]

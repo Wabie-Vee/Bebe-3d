@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://ctpbne1nipsoj"]
 
 [ext_resource type="PackedScene" uid="uid://0b5b81u1itr7" path="res://Player/player.tscn" id="1_fghy3"]
-[ext_resource type="Script" path="res://Scenes/Levels/DefaultLevel.gd" id="1_tb433"]
+[ext_resource type="Script" uid="uid://c3blt42uoailc" path="res://Scenes/Levels/DefaultLevel.gd" id="1_tb433"]
 [ext_resource type="PackedScene" uid="uid://bdu3lfl8ecjn7" path="res://Scenes/textbox_ui.tscn" id="3_ydqp7"]
 [ext_resource type="PackedScene" uid="uid://cdo0t3pr762wx" path="res://Util/DebugHUD.tscn" id="4_ylvlc"]
 [ext_resource type="PackedScene" uid="uid://cqdsets4netse" path="res://Scenes/audio_stream_player_3d.tscn" id="5_mhdeb"]
@@ -24,6 +24,7 @@ ssr_enabled = true
 sdfgi_enabled = true
 glow_enabled = true
 fog_light_color = Color(0.208812, 0.207246, 0.282081, 1)
+fog_light_energy = 0.69
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.0399
 
@@ -41,6 +42,7 @@ environment = SubResource("Environment_cst55")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.85171, 0.453809, -0.262006, 1.47562e-08, 0.499998, 0.866027, 0.524012, 0.737604, -0.425854, 0, 0, 0)
+visible = false
 light_color = Color(0.809096, 0.980368, 1, 1)
 light_energy = 1.5
 shadow_enabled = true
