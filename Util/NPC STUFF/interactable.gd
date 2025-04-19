@@ -98,6 +98,49 @@ func _enter():
 		return
 
 	ui_manager = get_tree().get_root().find_child("TextboxUI", true, false)
+
+	# ✨ Custom branching logic here
+	var stage = GameManager.get_quest_stage("capsule_quest")
+
+	match stage:
+		0:
+			dialog = [
+				"Hey, wanna bury a time capsule together?",
+				"I think it would be really cool to open it when we’re older."
+			]
+			GameManager.set_quest_stage("capsule_quest", 1)
+
+		1:
+			dialog = [
+				"I already buried it!",
+				"Let’s make a pact to open it someday, okay?"
+			]
+
+		2:
+			dialog = [
+				"Donut said something weird about the capsule...",
+				"Maybe you should talk to him."
+			]
+
+		3:
+			dialog = [
+				"Okay... we're all here.",
+				"Let’s open the capsule together."
+			]
+			GameManager.complete_quest("capsule_quest")
+
+		_:
+			dialog = ["Nothing new to say right now."]
+
+	# 🔥 Start dialogue
+	dialog_index = 0
+	reading_input_cooldown = 0.2
+	load_dialog()
+	player_ref.lock_player()
+	if player_ref.has_node("UI"):
+		player_ref.UI.visible = false
+	reading = true
+	ui_manager = get_tree().get_root().find_child("TextboxUI", true, false)
 	if ui_manager:
 		dialog_index = 0
 		reading_input_cooldown = 0.2

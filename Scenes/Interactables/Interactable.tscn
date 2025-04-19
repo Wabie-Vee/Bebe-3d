@@ -108,7 +108,7 @@ grow_vertical = 2
 position = Vector2(443.5, 134)
 scale = Vector2(0.716716, 0.660079)
 sprite_frames = SubResource("SpriteFrames_pd24p")
-frame_progress = 0.657134
+frame_progress = 0.906517
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Control"]
 layout_mode = 1
