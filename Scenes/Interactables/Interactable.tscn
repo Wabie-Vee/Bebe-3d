@@ -1,14 +1,74 @@
-[gd_scene load_steps=4 format=3 uid="uid://bl64u0xq6mgao"]
+[gd_scene load_steps=13 format=3 uid="uid://bl64u0xq6mgao"]
 
 [ext_resource type="Script" uid="uid://bp738iejtpb8g" path="res://Util/NPC STUFF/interactable.gd" id="1_i5c30"]
 [ext_resource type="Texture2D" uid="uid://ccc32qh0o3gxx" path="res://Textures/finger point.png" id="2_6lvni"]
+[ext_resource type="AudioStream" uid="uid://c2k1fgig1d40u" path="res://Sounds/snd_click.mp3" id="2_ls00x"]
+[ext_resource type="Texture2D" uid="uid://bu7ey0d3je8di" path="res://Textures/UI/Textbox1.png" id="4_kh1o6"]
+[ext_resource type="FontFile" uid="uid://c4goh2kssll8u" path="res://Textures/WinkyRough-Bold.ttf" id="4_ls00x"]
+[ext_resource type="Texture2D" uid="uid://c3der560qroy7" path="res://Textures/UI/textbox2.png" id="5_x5868"]
+[ext_resource type="Texture2D" uid="uid://dnbuegmchf27c" path="res://Textures/UI/textbox3.png" id="6_yod22"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2oml2"]
 size = Vector3(3.04688, 1.04492, 2.29173)
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_pd24p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_kh1o6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_x5868")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_yod22")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_bk8s2"]
+resource_name = "IDLE"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 2, 1),
+"update": 0,
+"values": [Vector2(826.5, 203.707), Vector2(826.5, 186.177), Vector2(826.5, 203.707)]
+}
+
+[sub_resource type="Animation" id="Animation_ls00x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(826.5, 203.707)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ri1vb"]
+_data = {
+&"IDLE": SubResource("Animation_bk8s2"),
+&"RESET": SubResource("Animation_ls00x")
+}
+
 [node name="Interactable" type="Area3D" groups=["interactable"]]
 script = ExtResource("1_i5c30")
 face_threshold = 0.975
+voice = ExtResource("2_ls00x")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_2oml2")
@@ -22,3 +82,58 @@ texture = ExtResource("2_6lvni")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../InteractIcon")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchor_left = 0.515
+anchor_top = 1.0
+anchor_right = 0.515
+anchor_bottom = 1.0
+offset_left = -442.28
+offset_top = -318.0
+offset_right = 441.72
+offset_bottom = -59.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Control/TextureRect"]
+position = Vector2(443.5, 134)
+scale = Vector2(0.716716, 0.660079)
+sprite_frames = SubResource("SpriteFrames_pd24p")
+frame_progress = 0.657134
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 26.0
+offset_right = -22.0
+offset_bottom = -22.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("4_ls00x")
+theme_override_fonts/bold_font = ExtResource("4_ls00x")
+theme_override_font_sizes/normal_font_size = 28
+theme_override_font_sizes/bold_font_size = 33
+bbcode_enabled = true
+text = "THIS IS SOME PLACEHOLDER TEXT. [wave][b][color=pink]hiiiiiii"
+
+[node name="FingerPoint" type="Sprite2D" parent="Control"]
+position = Vector2(826.5, 203.707)
+scale = Vector2(0.293814, 0.2364)
+texture = ExtResource("2_6lvni")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control/FingerPoint"]
+libraries = {
+&"": SubResource("AnimationLibrary_ri1vb")
+}

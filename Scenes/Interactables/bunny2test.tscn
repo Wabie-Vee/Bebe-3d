@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bl1cy2qaljgbx"]
+
+[ext_resource type="PackedScene" uid="uid://bl64u0xq6mgao" path="res://Scenes/Interactables/Interactable.tscn" id="1_c82ib"]
+[ext_resource type="PackedScene" uid="uid://b7xsealfcg3ph" path="res://Scenes/Bunny.tscn" id="2_s155y"]
+
+[node name="Interactable" instance=ExtResource("1_c82ib")]
+
+[node name="CollisionShape3D" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.612596, 1.19518)
+
+[node name="Bunny" parent="." index="4" instance=ExtResource("2_s155y")]
+
+[node name="Interactable" parent="Bunny" index="2"]
+visible = false
+
+[editable path="Bunny"]
+[editable path="Bunny/Interactable"]

@@ -37,7 +37,7 @@ func play_sfx(stream: AudioStream, pitch_randomize := true, volume_db := 0.0):
 		if not sfx.playing:
 			sfx.stream = stream
 			sfx.volume_db = volume_db
-			sfx.pitch_scale = randf_range(0.95, 1.05) if pitch_randomize else 1.0
+			sfx.pitch_scale = randf_range(0.5, 1.05) if pitch_randomize else 1.0
 			sfx.play()
 			return
 	# fallback (if all are busy)
@@ -47,6 +47,12 @@ func play_sfx(stream: AudioStream, pitch_randomize := true, volume_db := 0.0):
 	fallback.volume_db = volume_db
 	fallback.pitch_scale = 1.0
 	fallback.play()
+	
+func stop_sfx(stream: AudioStream):
+	for sfx in sfx_players:
+		if sfx.playing and sfx.stream == stream:
+			sfx.stop()
+			return
 
 func play_music(stream: AudioStream, restart := false):
 	var music = players[Bus.MUSIC]

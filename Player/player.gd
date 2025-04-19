@@ -34,53 +34,37 @@ extends CharacterBody3D
 @export var cursor_select: Texture2D
 @export var cursor_speak: Texture2D
 
-
 #=========================
 #== ONREADY NODES ==
 #=========================
 
-# UI & Reticle
 @onready var UI = $UI
-@onready var reticle = $UI/TextureRect
 @onready var reticle_sprite = $UI/TextureRect
-
-# Camera
 @onready var pivot = $Pivot
 @onready var cam_pivot = $Pivot/CameraPivot
 @onready var camera_rig = $Pivot/CameraPivot/CameraRig
 @onready var game_camera = $Pivot/CameraPivot/CameraRig/GameCamera
 @onready var raycast = $Pivot/CameraPivot/CameraRig/GameCamera/RayCast3D
 @onready var headbob_origin = game_camera.transform.origin
-
-# Character Mesh & Animation
 @onready var mesh = $MeshInstance3D
 @onready var bebe_mesh = $BebePivot/BebeBear
 @onready var bebe_pivot = $BebePivot
 @onready var bebe_anim = $BebePivot/BebeBear/AnimationPlayer
 @onready var animation_tree = $BebePivot/BebeBear/AnimationTree
 @onready var move_blend_path := "parameters/MoveBlend/blend_position"
-
-# Audio Players
 @onready var sfx_footstep_player = $SFXFootstep
 @onready var sfx_jump_player = $SFXJump
 @onready var sfx_player = $PlayerSFX
-
-# Systems
 @onready var pickup_handler = $PickupHandler
 @onready var hold_point = $Pivot/CameraPivot/CameraRig/HoldPoint
 @onready var state_machine = preload("res://Player/PlayerStateMachine.gd").new(self)
-
-# Debug
 @onready var debug_hud = $DebugHUD
 @onready var debug_label = debug_hud.get_node("DebugLabel") if debug_hud else null
-@onready var debug_raycast: Node3D = null
-
 
 #=========================
 #== INTERNAL VARIABLES ==
 #=========================
 
-# Gameplay
 @onready var move_speed := original_move_speed
 @onready var sprint_speed := move_speed * sprint_multiplier
 var input_direction := Vector3.ZERO
@@ -90,45 +74,29 @@ var sprinting := false
 var is_jumping := false
 var jump_held_time := 0.0
 var is_grabbing_smoothly := false
-
-# Look
 var look_delta := Vector2.ZERO
 var vertical_look_angle := 0.0
-
-# Camera
 var max_fov := base_fov + 10
 var fov_transition_speed := 10.0
 var max_z_speed_for_fov := 10.0
 var camera_lean_angle := 0.0
 var max_lean_angle := deg_to_rad(2.5)
 var lean_speed := 5.0
-
-# Headbob
 var headbob_enabled := true
 var headbob_timer := 0.0
 @onready var headbob_amplitude := 0.05
 var last_headbob_value := 0.0
 var footstep_played_this_cycle := false
-
-# Cursor
-enum CursorState { NONE, TALK, GRAB }
-var cursor_state = CursorState.NONE
-var current_target = null
-
-# Debug
 var debug_mode := false
-
-# Animation
 var anim_speed = original_move_speed
 var current_anim_state := ""
-
+var current_target = null
 
 #=========================
 #== ENGINE HOOKS ==
 #=========================
 
 func _ready():
-	print("SFX JUMP AT READY:", sfx_jump)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	state_machine._ready()
 
@@ -139,18 +107,8 @@ func _unhandled_input(event):
 
 func _physics_process(delta):
 	can_double_jump = false
-
-	var space_state = get_world_3d().direct_space_state
-	var from = game_camera.global_position
-	var to = from + game_camera.global_transform.basis.z * -2
-
-	var query = PhysicsRayQueryParameters3D.create(from, to)
-	query.exclude = [self]
-	var result = space_state.intersect_ray(query)
-
 	handle_inputs()
 	handle_raycast()
-	update_cursor_state()
 	handle_camera_look()
 	handle_bebe_pivot(delta)
 	state_machine._physics_process(delta)
@@ -159,17 +117,11 @@ func _physics_process(delta):
 	handle_headbob(delta)
 	update_fov(delta)
 	update_debug_text()
-
 	var move_speed = velocity.length()
-
 	if animation_tree:
-		animation_tree.set("parameters/MoveBlend/blend_position", velocity.length())
-	else:
-		print("⚠️ AnimationTree is null! Check the node path.")
-
+		animation_tree.set("parameters/MoveBlend/blend_position", move_speed)
 	anim_speed = move_speed
 	animation_tree.set("parameters/MoveBlend/Walk/time_scale", anim_speed)
-
 
 #=========================
 #== INPUT HANDLING ==
@@ -211,7 +163,6 @@ func handle_inputs():
 		var scene_path = current_scene.scene_file_path
 		get_tree().change_scene_to_file(scene_path)
 
-
 #=========================
 #== CAMERA ==
 #=========================
@@ -238,20 +189,15 @@ func update_fov(delta):
 	var target_fov = lerp(base_fov, max_fov, t)
 	game_camera.fov = lerp(game_camera.fov, target_fov, fov_transition_speed * delta)
 
-
 #=========================
 #== HEADBOB ==
 #=========================
 
 func handle_headbob(delta):
-	var headbob_frequency
-	if !sprinting:
-		headbob_frequency = move_speed * 5
-	else:
-		headbob_frequency = move_speed * 5 * sprint_multiplier
-		
-	
-	
+	var headbob_frequency = move_speed * 5
+	if sprinting:
+		headbob_frequency *= sprint_multiplier
+
 	if headbob_enabled and is_on_floor() and velocity.length() > 0.1:
 		headbob_timer += delta * headbob_frequency
 		var bob_value = sin(headbob_timer)
@@ -261,7 +207,6 @@ func handle_headbob(delta):
 		current_pos.y = lerp(current_pos.y, target_y, 10 * delta)
 		cam_pivot.transform.origin = current_pos
 
-#play footstep sound on down arc
 		if last_headbob_value < -0.95 and bob_value >= last_headbob_value and not footstep_played_this_cycle:
 			SoundManager.play_sfx(sfx_footstep, true)
 			footstep_played_this_cycle = true
@@ -276,7 +221,6 @@ func handle_headbob(delta):
 		cam_pivot.transform.origin = current_pos
 		last_headbob_value = 0.0
 		footstep_played_this_cycle = false
-
 
 #=========================
 #== RAYCAST / INTERACTION ==
@@ -310,61 +254,50 @@ func handle_raycast():
 				current_target.unhighlight()
 			current_target = found_interactable
 			current_target.highlight(self)
+
+			update_reticle_sprite(cursor_speak)
+
 			if Input.is_action_just_pressed("key_interact") and not current_target.reading:
-				if cursor_state == CursorState.TALK:
-					current_target._enter()
+				current_target._enter()
 		else:
 			if current_target:
 				current_target.unhighlight()
 				current_target = null
+
+			# ➕ Try pickup detection when not interacting
+			var space_state = get_world_3d().direct_space_state
+			var from = game_camera.global_position
+			var to = from + game_camera.global_transform.basis.z * -2
+			var query = PhysicsRayQueryParameters3D.create(from, to)
+			query.exclude = [self]
+
+			var result = space_state.intersect_ray(query)
+			if result and result.collider and result.collider.is_in_group("pickable"):
+				update_reticle_sprite(cursor_select)
+			else:
+				update_reticle_sprite(cursor_default)
 	else:
 		if current_target:
 			current_target.unhighlight()
 			current_target = null
-
-func update_cursor_state():
-	var new_state = CursorState.NONE
-	if raycast.is_colliding():
-		var hit = raycast.get_collider()
-		var possible = hit
-		for i in range(5):
-			if possible == null:
-				break
-			if possible.is_in_group("interactable"):
-				new_state = CursorState.TALK
-				break
-			elif possible.is_in_group("pickable"):
-				new_state = CursorState.GRAB
-				break
-			possible = possible.get_parent()
-	if new_state != cursor_state:
-		cursor_state = new_state
-		update_reticle_sprite()
-
-func update_reticle_sprite():
-	match cursor_state:
-		CursorState.NONE:
-			reticle_sprite.texture = cursor_default
-		CursorState.TALK:
-			reticle_sprite.texture = cursor_speak
-		CursorState.GRAB:
-			reticle_sprite.texture = cursor_select
-
+		update_reticle_sprite(cursor_default)
 
 #=========================
 #== ANIMATION ==
 #=========================
 
+func update_reticle_sprite(new_texture: Texture2D):
+	if reticle_sprite.texture != new_texture:
+		reticle_sprite.texture = new_texture
+
 func handle_bebe_pivot(delta):
 	var pivot_yaw = wrapf(pivot.rotation_degrees.y, 0, 360)
 	var bebe_yaw = wrapf(bebe_pivot.rotation_degrees.y, 0, 360)
 	var angle_diff = abs(pivot_yaw - bebe_yaw)
-
 	if angle_diff > turn_threshold:
 		var target_yaw = deg_to_rad(pivot_yaw)
 		var current_yaw = bebe_pivot.rotation.y
 		bebe_pivot.rotation.y = lerp_angle(current_yaw, target_yaw, delta * turn_speed)
-
 
 #=========================
 #== GAME LOGIC ==
@@ -384,7 +317,6 @@ func lock_player():
 func unlock_player():
 	state_machine.set_state("IdleState")
 
-
 #=========================
 #== AUDIO ==
 #=========================
@@ -399,7 +331,6 @@ func play_footstep_sfx():
 		sfx_footstep_player.stream = sfx_footstep
 		sfx_footstep_player.play()
 
-
 #=========================
 #== DEBUG ==
 #=========================
@@ -411,8 +342,7 @@ func update_debug_text():
 			"Velocity: %.2f\n" % velocity.length() +
 			"On Floor: %s\n" % str(is_on_floor()) +
 			"Sprinting: %s\n" % str(sprinting) +
-			"State: %s\n" % state_machine.current_state.get_script().resource_path.get_file().get_basename() +
-			"Looking At: %s" % debug_raycast
+			"State: %s\n" % state_machine.current_state.get_script().resource_path.get_file().get_basename() 
 		)
 	else:
 		debug_label.text = ""
