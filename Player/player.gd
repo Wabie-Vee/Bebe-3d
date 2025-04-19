@@ -20,7 +20,7 @@ extends CharacterBody3D
 @export var mouse_sensitivity := 0.002
 @export var rotation_speed := 8.0
 @export var turn_threshold := 5.0
-@export var turn_speed := 5.0
+@export var turn_speed := 9.0
 
 @export_group("Camera")
 @export_range(75,120) var base_fov := 75
@@ -244,7 +244,14 @@ func update_fov(delta):
 #=========================
 
 func handle_headbob(delta):
-	var headbob_frequency = move_speed * 3
+	var headbob_frequency
+	if !sprinting:
+		headbob_frequency = move_speed * 5
+	else:
+		headbob_frequency = move_speed * 5 * sprint_multiplier
+		
+	
+	
 	if headbob_enabled and is_on_floor() and velocity.length() > 0.1:
 		headbob_timer += delta * headbob_frequency
 		var bob_value = sin(headbob_timer)
@@ -254,8 +261,9 @@ func handle_headbob(delta):
 		current_pos.y = lerp(current_pos.y, target_y, 10 * delta)
 		cam_pivot.transform.origin = current_pos
 
+#play footstep sound on down arc
 		if last_headbob_value < -0.95 and bob_value >= last_headbob_value and not footstep_played_this_cycle:
-			play_footstep_sfx()
+			SoundManager.play_sfx(sfx_footstep, true)
 			footstep_played_this_cycle = true
 
 		if bob_value > 0.1:
