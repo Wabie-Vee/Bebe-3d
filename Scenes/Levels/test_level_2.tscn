@@ -17,7 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://brcs4tf8b1gx6" path="res://Models/grass.glb" id="11_ekdwm"]
 [ext_resource type="AudioStream" uid="uid://dg448bkwbx3ui" path="res://Sounds/snd_click3.mp3" id="11_u3wkr"]
 [ext_resource type="PackedScene" uid="uid://bo1mrjlhd8gop" path="res://Blender/RedCoffeeTable.blend" id="12_4pm4d"]
-[ext_resource type="PackedScene" uid="uid://bl1cy2qaljgbx" path="res://Scenes/Interactables/bunny2test.tscn" id="18_qb4ns"]
+[ext_resource type="PackedScene" path="res://Scenes/Interactables/bunny2test.tscn" id="18_qb4ns"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4pm4d"]
 albedo_texture = ExtResource("2_ce3qu")
@@ -246,7 +246,7 @@ transform = Transform3D(-0.101664, 0, 0.994819, 0, 1, 0, -0.994819, 0, -0.101664
 transform = Transform3D(-0.101664, 0, -0.994819, 0, 1, 0, 0.994819, 0, -0.101664, -4.87118, 0.0607472, 7.75366)
 
 [node name="Interactable" parent="DefaultLevel/Interactables/Bunny" index="2"]
-dialog = ["Hi [wave]Bebe!", "You're looking [wave]gooooood[/wave] today!", "[b][wave][shake]*KISS*"]
+dialog = ["Hi [wave][color=yellow]Bebe!", "I hope one day we can all get together like this!", "When I grow up I want to have my own crafts store."]
 
 [node name="Interactable3" parent="DefaultLevel/Interactables" index="4" instance=ExtResource("18_qb4ns")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.35603, 0.00100921, -7.29261)

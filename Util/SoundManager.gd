@@ -37,7 +37,7 @@ func play_sfx(stream: AudioStream, pitch_randomize := true, volume_db := 0.0):
 		if not sfx.playing:
 			sfx.stream = stream
 			sfx.volume_db = volume_db
-			sfx.pitch_scale = randf_range(0.5, 1.05) if pitch_randomize else 1.0
+			sfx.pitch_scale = randf_range(1.0, 2.0) if pitch_randomize else 1.0
 			sfx.play()
 			return
 	# fallback (if all are busy)
